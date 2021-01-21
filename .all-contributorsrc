@@ -8,12 +8,13 @@
   ],
   "imageSize": 100,
   "commit": true,
+  "commitConvention": "none",
   "contributors": [
     {
       "login": "OscarWang114",
-      "name": "WANG, Chih-Hao",
+      "name": "Chih-Hao Wang",
       "avatar_url": "https://avatars0.githubusercontent.com/u/30998659?v=4",
-      "profile": "http://www.oscarwang114.me",
+      "profile": "https://github.com/OscarWang114",
       "contributions": [
         "bug",
         "code",
@@ -22,6 +23,99 @@
         "ideas",
         "review",
         "infra"
+      ]
+    },
+    {
+      "login": "Lmmmmm",
+      "name": "Meng Li",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/30943643?v=4",
+      "profile": "https://github.com/Lmmmmm",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "Isabella-Ko",
+      "name": "Isabella-Ko",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/47520253?v=4",
+      "profile": "https://github.com/Isabella-Ko",
+      "contributions": [
+        "business",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "JiaxianGu",
+      "name": "JiaxianGu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/43884711?v=4",
+      "profile": "https://github.com/JiaxianGu",
+      "contributions": [
+        "bug",
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "YHhaoareyou",
+      "name": "YH_hao_are_you",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/43674499?v=4",
+      "profile": "https://github.com/YHhaoareyou",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "review",
+        "projectManagement"
+      ]
+    },
+    {
+      "login": "AustinZhu",
+      "name": "AustinZhu",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42071208?v=4",
+      "profile": "https://github.com/AustinZhu",
+      "contributions": [
+        "bug",
+        "code",
+        "ideas",
+        "infra",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "NeroArcher",
+      "name": "NeroArcher",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/59641121?v=4",
+      "profile": "https://github.com/NeroArcher",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "k-jomphon",
+      "name": "k-jomphon",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/38510009?v=4",
+      "profile": "https://github.com/k-jomphon",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "",
+      "name": "Xia Zjou Zheng (George)",
+      "avatar_url": "",
+      "profile": "",
+      "contributions": [
+        "projectManagement",
+        "ideas",
+        "business"
       ]
     },
     {
@@ -54,46 +148,58 @@
       ]
     },
     {
-      "login": "Lmmmmm",
-      "name": "Meng Li",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/30943643?v=4",
-      "profile": "https://github.com/Lmmmmm",
+      "login": "youenn98",
+      "name": "youenn98",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51810761?v=4",
+      "profile": "https://github.com/youenn98",
       "contributions": [
-        "bug",
-        "code",
+        "code"
+      ]
+    },
+    {
+      "login": "",
+      "name": "Hatori Cao",
+      "avatar_url": "",
+      "profile": "",
+      "contributions": [
+        "tutorial",
+        "ideas"
+      ]
+    },
+    {
+      "login": "",
+      "name": "Zenda Chen",
+      "avatar_url": "",
+      "profile": "",
+      "contributions": [
+        "business",
+        "content",
         "design",
-        "ideas",
-        "maintenance"
+        "ideas"
       ]
     },
     {
-      "login": "Isabella-Ko",
-      "name": "Isabella-Ko",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/47520253?v=4",
-      "profile": "https://github.com/Isabella-Ko",
+      "login": "",
+      "name": "Kaiqing Chang",
+      "avatar_url": "",
+      "profile": "",
       "contributions": [
-        "code"
+        "business",
+        "content",
+        "design",
+        "ideas"
       ]
     },
     {
-      "login": "JiaxianGu",
-      "name": "JiaxianGu",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/43884711?v=4",
-      "profile": "https://github.com/JiaxianGu",
+      "login": "kaedejima",
+      "name": "Kaede Iijima",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49092226?s=400&u=7f7d80600a0007aadc8a9e6d0df69e38088c5562&v=4",
+      "profile": "https://github.com/kaedejima",
       "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "YHhaoareyou",
-      "name": "YH_hao_are_you",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/43674499?v=4",
-      "profile": "https://github.com/YHhaoareyou",
-      "contributions": [
-        "code"
+        "tutorial",
+        "design",
       ]
     }
   ],
-  "commitConvention": "none",
   "contributorsPerLine": 7
 }

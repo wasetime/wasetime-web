@@ -57,9 +57,16 @@ export const loadState = () => {
         const isOldSchema =
           Array.isArray(fetchedCourses.list.ids) &&
           fetchedCourses.byId[fetchedCourses.list.ids[0]]._id;
+        const newFeaturesAvailable = !("tokens" in state.user);
 
-        if (fetchedCourses === null || needsUpdate || isOldSchema) {
-          if (isOldSchema) state.user.isFirstTimeAccess = true;
+        if (isOldSchema || newFeaturesAvailable) {
+          state.user.isFirstTimeAccess = true;
+          fetchedCourses = {
+            byId: {},
+            list: {},
+            schools: fetchedCourses.schools,
+          };
+        } else if (fetchedCourses === null || needsUpdate) {
           fetchedCourses = {
             byId: {},
             list: {},

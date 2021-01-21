@@ -74,5 +74,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "all-contributors-cli": "^6.19.0"
+  }
 }

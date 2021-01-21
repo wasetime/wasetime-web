@@ -67,15 +67,12 @@ const ReviewScale = styled("div")`
 `;
 
 const DeleteModal = styled(Modal)`
+  width: auto !important;
   text-align: center !important;
-  font-size: 1.5em !important;
+  font-size: 1.5em;
   background-color: rgba(0, 0, 0, 0.2) !important;
-  ${media.phone`font-size: 1.4rem !important;`}
-  .header {
-    font-size: 2rem !important;
-  }
   .button {
-    font-size: 1.7rem !important;
+    font-size: 1.5rem;
   }
 `;
 
@@ -163,7 +160,7 @@ class ReviewsList extends React.Component {
               <span>
                 <Editbutton
                   icon
-                  size='massive'
+                  size="massive"
                   onClick={() =>
                     openReviewEditForm({
                       ...review,
@@ -176,7 +173,7 @@ class ReviewsList extends React.Component {
                 </Editbutton>
                 <Deletebutton
                   icon
-                  size='massive'
+                  size="massive"
                   onClick={() => this.openDeleteModal(review, i)}
                 >
                   <Icon name="trash" />
@@ -201,24 +198,22 @@ class ReviewsList extends React.Component {
           open={this.state.isDeleteModalOpen}
           onClose={this.closeDeleteModal}
         >
-          <Modal.Header>
-            {t(`courseInfo.delete review confirmation`)}
-          </Modal.Header>
           <Modal.Content>
+            <h2>{t(`courseInfo.delete review confirmation`)}</h2>
             <Modal.Description>
               <Button
                 icon
                 style={{ background: "red", color: "#fff" }}
                 onClick={() => this.confirmDeleteReview()}
               >
-                <Icon name="check" /> {t(`courseInfo.delete review yes`)}
+                {t(`courseInfo.delete review yes`)}
               </Button>
               <Button
                 icon
                 style={{ background: "green", color: "#fff" }}
                 onClick={this.closeDeleteModal}
               >
-                <Icon name="close" /> {t(`courseInfo.delete review no`)}
+                {t(`courseInfo.delete review no`)}
               </Button>
             </Modal.Description>
           </Modal.Content>

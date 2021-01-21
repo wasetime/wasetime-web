@@ -14,7 +14,6 @@ import {
   Icon,
   Checkbox,
   Form,
-  Button,
   Popup,
   Image,
   Message,
@@ -58,19 +57,34 @@ const WiderPopup = styled(Popup)`
   }
 `;
 
-const ChooseSchoolButton = styled(Button)`
-  font-size: 14px !important;
-  padding: 0.5em 1em !important;
-  color: #777 !important;
-  ${media.phoneMini`font-size: 11px !important;`}
+const ChooseSchoolButton = styled("button")`
+  font-size: 14px;
+  padding: 0.3rem 0.6rem;
+  background: #fff;
+  color: #b51e36;
+  border: 1px solid #b51e36;
+  border-radius: 5px;
+  font-weight: 600;
+  ${media.phoneMini`font-size: 11px;`}
   i {
-    color: #48af37 !important;
+    color: #48af37;
+  }
+  &:hover {
+    background: #b51e36;
+    color: #fff;
+    i {
+      color: #fff;
+    }
+  }
+  &:focus {
+    outline: 0;
   }
 `;
 
 const RemoveSchoolButton = styled(ChooseSchoolButton)`
+  margin-left: 1rem;
   i {
-    color: #ce0115 !important;
+    color: #ce0115;
   }
 `;
 
@@ -287,15 +301,13 @@ class SchoolFilterForm extends React.Component {
 
           {this.state.loadedSchools.length > 0 &&
             this.state.isSchoolFilterOpened && (
-              <Button.Group>
+              <div>
                 <WiderPopup
                   trigger={
-                    <ChooseSchoolButton
-                      inverted
-                      color="grey"
-                      icon="add"
-                      content={t("syllabus.School Filter.Choose Schools")}
-                    />
+                    <ChooseSchoolButton>
+                      <Icon name="add" />{" "}
+                      {t("syllabus.School Filter.Choose Schools")}
+                    </ChooseSchoolButton>
                   }
                   content={<Tab panes={this.schoolImportPanes()} />}
                   on="click"
@@ -305,12 +317,10 @@ class SchoolFilterForm extends React.Component {
                 />
                 <WiderPopup
                   trigger={
-                    <RemoveSchoolButton
-                      inverted
-                      color="grey"
-                      icon="minus"
-                      content={t("syllabus.School Filter.Remove Schools")}
-                    />
+                    <RemoveSchoolButton>
+                      <Icon name="minus" />{" "}
+                      {t("syllabus.School Filter.Remove Schools")}
+                    </RemoveSchoolButton>
                   }
                   content={this.schoolRemoveForm()}
                   on="click"
@@ -318,7 +328,7 @@ class SchoolFilterForm extends React.Component {
                   size="huge"
                   wide="very"
                 />
-              </Button.Group>
+              </div>
             )}
 
           {this.state.loadedSchools.length === 0 &&
@@ -330,12 +340,10 @@ class SchoolFilterForm extends React.Component {
                 <p>{t("syllabus.School Filter.Import request")}</p>
                 <Popup
                   trigger={
-                    <ChooseSchoolButton
-                      inverted
-                      color="grey"
-                      icon="add"
-                      content={t("syllabus.School Filter.Choose Schools")}
-                    />
+                    <ChooseSchoolButton>
+                      <Icon name="add" />{" "}
+                      {t("syllabus.School Filter.Choose Schools")}
+                    </ChooseSchoolButton>
                   }
                   content={<Tab panes={this.schoolImportPanes()} />}
                   on="click"

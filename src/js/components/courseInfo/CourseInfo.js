@@ -399,7 +399,7 @@ class CourseInfo extends React.Component {
                   : "",
               },
             }
-          ).then(() => this.cleanFormAndUpdateReviews(newReview));
+          ).then(async () => this.cleanFormAndUpdateReviews(newReview));
         } else if (reviewFormMode === "edit") {
           API.patch(
             "wasedatime-dev",
@@ -418,7 +418,7 @@ class CourseInfo extends React.Component {
                   : "",
               },
             }
-          ).then(() => this.cleanFormAndUpdateReviews(newReview));
+          ).then(async () => this.cleanFormAndUpdateReviews(newReview));
         }
       } catch (error) {
         Alert.error(this.props.t(`courseInfo.Review failed to send`), {
@@ -429,34 +429,30 @@ class CourseInfo extends React.Component {
     }
   };
 
-  cleanFormAndUpdateReviews = (newReview) => {
-    const { thisCourseReviews, reviewFormMode, editReviewIndex } = this.state;
+  cleanFormAndUpdateReviews = async (newReview) => {
     Alert.success(this.props.t(`courseInfo.Review sent`), {
       position: "bottom",
       effect: "jelly",
     });
 
-    const postedReview = {
-      ...newReview,
-      comment_en: newReview["comment"],
-      comment_ja: newReview["comment"],
-      "comment_zh-TW": newReview["comment"],
-      "comment_zh-CN": newReview["comment"],
-      comment_ko: newReview["comment"],
-    };
+    const thisCourseKey = getCourseKey(this.state.thisCourse);
 
-    let updatedThisCourseReviews = [];
-
-    if (reviewFormMode === "edit") {
-      updatedThisCourseReviews = thisCourseReviews.map((r, i) =>
-        i === editReviewIndex ? postedReview : r
-      );
-    } else {
-      updatedThisCourseReviews = [postedReview, ...thisCourseReviews];
-    }
+    const thisCourseReviewsRes = await API.get(
+      "wasedatime-dev",
+      "/course-reviews/" +
+        thisCourseKey +
+        "?uid=" +
+        (this.props.userTokens ? this.props.userTokens.sub : ""),
+      {
+        headers: {
+          "x-api-key": "0PaO2fHuJR9jlLLdXEDOyUgFXthoEXv8Sp0oNsb8",
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     this.setState((prevState, props) => ({
-      thisCourseReviews: updatedThisCourseReviews,
+      thisCourseReviews: thisCourseReviewsRes.data,
       isAddReviewFormOpen: false,
       newReviewSatisfaction: 0,
       newReviewDifficulty: 0,

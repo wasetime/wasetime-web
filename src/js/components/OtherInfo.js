@@ -29,6 +29,10 @@ const LinksWrapper = styled("div")`
   "line-height: 4vh;"}
 `;
 
+const SnsLink = styled("a")`
+  margin: 0px 0.3rem;
+`;
+
 const OtherInfo = ({ isHovered }) => (
   <LinksWrapper ishovered={isHovered}>
     <a href="/terms-of-service">Terms of Service</a>・
@@ -42,34 +46,34 @@ const OtherInfo = ({ isHovered }) => (
       Code Licensed MIT
     </a>
     <br />
-    <a
+    <SnsLink
       href="https://github.com/wasedatime/wasedatime-web"
       target="_blank"
       rel="noopener noreferrer"
     >
       <FontAwesomeIcon icon={faGithub} size="2x" transform="shrink-2" />
-    </a>
-    <a
+    </SnsLink>
+    <SnsLink
       href="https://twitter.com/WasedaTime"
       target="_blank"
       rel="noopener noreferrer"
     >
       <FontAwesomeIcon icon={faTwitter} size="2x" transform="shrink-2" />
-    </a>
-    <a
+    </SnsLink>
+    <SnsLink
       href="https://www.facebook.com/wasedatime"
       target="_blank"
       rel="noopener noreferrer"
     >
       <FontAwesomeIcon icon={faFacebook} size="2x" transform="shrink-2" />
-    </a>
-    <a
+    </SnsLink>
+    <SnsLink
       href="https://www.instagram.com/wasedatime/"
       target="_blank"
       rel="noopener noreferrer"
     >
       <FontAwesomeIcon icon={faInstagram} size="2x" transform="shrink-2" />
-    </a>
+    </SnsLink>
     <br />
     Copyright © 2018-2021 WasedaTime
   </LinksWrapper>

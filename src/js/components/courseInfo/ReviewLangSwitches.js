@@ -38,25 +38,32 @@ const ReviewLangSwitches = ({
       English
     </ReviewLangSwitch>
     <ReviewLangSwitch
-      active={reviewLang === "jp"}
-      onClick={() => switchReviewLang("jp")}
+      active={reviewLang === "ja"}
+      onClick={() => switchReviewLang("ja")}
       isInHeading={isInHeading}
     >
       日本語
     </ReviewLangSwitch>
     <ReviewLangSwitch
-      active={reviewLang === "zh_TW"}
-      onClick={() => switchReviewLang("zh_TW")}
+      active={reviewLang === "zh-TW"}
+      onClick={() => switchReviewLang("zh-TW")}
       isInHeading={isInHeading}
     >
       繁中
     </ReviewLangSwitch>
     <ReviewLangSwitch
-      active={reviewLang === "zh_CN"}
-      onClick={() => switchReviewLang("zh_CN")}
+      active={reviewLang === "zh-CN"}
+      onClick={() => switchReviewLang("zh-CN")}
       isInHeading={isInHeading}
     >
       简中
+    </ReviewLangSwitch>
+    <ReviewLangSwitch
+      active={reviewLang === "ko"}
+      onClick={() => switchReviewLang("ko")}
+      isInHeading={isInHeading}
+    >
+      한국
     </ReviewLangSwitch>
   </span>
 );

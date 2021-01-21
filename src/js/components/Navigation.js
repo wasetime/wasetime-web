@@ -9,32 +9,43 @@ import {
   faCalendarAlt,
   faBook,
   faBus,
-  faStar,
-  faExclamationTriangle,
+  faVirus,
+  // faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { media } from "../styled-components/utils";
 
 const StyledNav = styled("nav")`
   display: flex;
-  flex-direction: row;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
+  align-items: left;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
 `;
 
 const StyledLink = styled(Link)`
-  padding: 0.2em 0.5em 0 0.5em;
   ${media.phone`padding: 0.2em 0.4em 0 0.4em;`};
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   font-size: 1.1em;
   font-weight: 330;
+  padding: 1vh 0px;
+  ${window.innerHeight < 450 && "padding: 0.5vh 0px;"}
+  padding-left: ${(props) => (props.ishovered ? "35px" : "12px")};
+  width: ${(props) => (props.ishovered ? "210px" : "67px")};
+  &:hover {
+    color: ${(props) => props.theme.colorPrimary};
+    button {
+      color: ${(props) => props.theme.colorPrimary};
+    }
+  }
+  transition: padding-left 0.5s;
 `;
 
 const StyledButton = styled("button")`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   border: none;
   outline: none;
@@ -43,20 +54,26 @@ const StyledButton = styled("button")`
   background-color: inherit;
   color: ${(props) =>
     props.isClicked ? props.theme.colorPrimary : props.theme.white};
-  &:hover {
-    color: ${(props) => props.theme.colorPrimary};
+
+  svg {
+    width: 40px !important;
+    text-align: center !important;
   }
 `;
 
 const StyledSpan = styled("span")`
-  font-size: 0.55em;
+  width: 120px;
+  text-align: left;
+  font-size: 1em;
   font-weight: 100;
-  ${media.phone`font-size: 0.5em;`};
+  margin-left: 1rem;
+  color: #fff;
+  opacity: ${(props) => (props.ishovered ? "1" : "0")};
+  transition: opacity 0.3s;
 `;
 
-const Navigation = (props) => {
-  const pathname = props.location.pathname;
-  const t = props.t;
+const Navigation = ({ isHovered, t }) => {
+  const pathname = window.location.pathname;
   const navItems = [
     {
       name: t("navigation.timetable"),
@@ -71,18 +88,18 @@ const Navigation = (props) => {
     {
       name: t("navigation.corona-info"),
       path: "/corona-info",
-      icon: faExclamationTriangle,
+      icon: faVirus,
     },
     // {
     //   name: t("navigation.career"),
     //   path: "/career",
     //   icon: faBriefcase,
     // },
-    {
-      name: t("navigation.joinus"),
-      path: "/joinus",
-      icon: faStar,
-    },
+    // {
+    //   name: t("navigation.joinus"),
+    //   path: "/joinus",
+    //   icon: faStar,
+    // },
     {
       name: t("navigation.bus"),
       path: "/bus",
@@ -93,15 +110,14 @@ const Navigation = (props) => {
     const itemName = item["name"];
     const itemPath = item["path"];
     const itemIcon = item["icon"];
-    const isClicked = pathname.includes(itemPath);
     const fontBase = (
       <FontAwesomeIcon icon={itemIcon} size="2x" transform="shrink-2" />
     );
     return (
-      <StyledLink to={itemPath} key={itemPath}>
-        <StyledButton isClicked={isClicked}>
+      <StyledLink to={itemPath} key={itemPath} ishovered={isHovered}>
+        <StyledButton isClicked={pathname === itemPath}>
           {fontBase}
-          <StyledSpan>{itemName}</StyledSpan>
+          <StyledSpan ishovered={isHovered}>{itemName}</StyledSpan>
         </StyledButton>
       </StyledLink>
     );

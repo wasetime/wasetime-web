@@ -7,12 +7,6 @@ const PREV_STATE_NAME = "wasedatime-2019-state";
 const STATE_NAME = "wasedatime-2020-state";
 const STATE_FETCHED_COURSES_NAME = "wasedatime-2020-state-fc";
 const STATE_ADDED_COURSES_NAME = "wasedatime-2020-state-ac";
-const DATA_TO_SAVE = [
-  LNG_KEY,
-  STATE_NAME,
-  STATE_FETCHED_COURSES_NAME,
-  STATE_ADDED_COURSES_NAME,
-];
 
 export const loadState = () => {
   let prevState = null;
@@ -136,18 +130,6 @@ export const loadState = () => {
 };
 
 export const saveState = (state) => {
-  for (let i = 0, len = localStorage.length; i < len; ++i) {
-    const key = localStorage.key(i);
-    if (!DATA_TO_SAVE.includes(key)) {
-      localStorage.clear();
-      localForage
-        .clear()
-        .then(() => {})
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }
   const { fetchedCourses, ...rest } = state;
   localStorage.setItem(
     STATE_ADDED_COURSES_NAME,

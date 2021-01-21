@@ -12,7 +12,7 @@ import {
 const info = (state = {}, action) => {
   switch (action.type) {
     case FETCH_STATS_SUCCESS:
-      return action.response;
+      return action.payload;
     default:
       return state;
   }

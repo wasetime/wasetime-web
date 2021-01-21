@@ -47,7 +47,7 @@ const ExtendedOverlay = styled(Overlay)`
   left: 0;
   bottom: 0;
   padding: 1rem;
-  z-index: 9999;
+  z-index: 999;
   opacity: 1;
   animation: ${(props) => props.animation} 0.5s ease;
 `;

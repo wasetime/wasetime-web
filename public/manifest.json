@@ -9,8 +9,14 @@
     },
     {
       "src": "logo.png",
-      "sizes": "192x192",
+      "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "maskable_icon.png",
+      "sizes": "627x627",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "./index.html",

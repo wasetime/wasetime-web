@@ -9,32 +9,63 @@ import styled from "styled-components";
 
 const StyledDropdown = styled(Dropdown)`
   font-size: 1em !important;
+  font-family: Segoe UI, Yu Gothic Medium, Lato;
+  font-display: swap;
+  min-height: 32px !important;
+  padding: 0.2rem 0.5rem 0.1rem 0.5rem !important;
+
   a.ui.label {
-    line-height: 1.3 !important;
+    line-height: 1 !important;
+    padding: 0px 1rem 0.5rem 1rem !important;
+    font-size: 0.9em !important;
   }
   .menu .text {
     font-size: 1.5em !important;
     line-height: 1.2 !important;
   }
+
+  .text {
+    margin: 0.4rem 1rem !important;
+  }
+
+  i {
+    padding: 0.5rem 1rem !important;
+  }
 `;
+
+// const StyledFormControlLabel = styled(FormControlLabel)`
+//   label {
+//     padding-left: 50px !important;
+//   }
+// `;
 
 const styles = (theme) => ({
   formLabel: {
     fontSize: "1.3em",
     color: "#000",
     fontWeight: "bold",
+    fontFamily: "Lato, Yu Gothic Medium, Segoe UI",
+    fontDisplay: "swap",
   },
   formGroup: {
     fontSize: "1.2em",
     margin: "0 0 10px",
+    fontFamily: "Segoe UI, Yu Gothic Medium, Lato",
+    fontDisplay: "swap",
   },
   formControlLabel: {
-    minWidth: "105px",
+    minWidth: "80px",
+    paddingLeft: "0.4rem",
+    fontFamily: "Segoe UI, Yu Gothic Medium, Lato",
+    fontDisplay: "swap",
   },
   formControlLabel_label: {
     fontSize: "1em",
+    fontFamily: "Segoe UI, Yu Gothic Medium, Lato",
+    fontDisplay: "swap",
   },
   checkBox: {
+    width: "40px",
     height: "30px",
   },
   checkBoxChecked: {

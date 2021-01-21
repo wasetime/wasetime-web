@@ -39,6 +39,9 @@ const StyledSegment = styled(Segment)`
   font-size: 1em !important;
   margin: 1em 0px !important;
   cursor: default !important;
+  border: none !important;
+  margin-top: 0 !important;
+  box-shadow: none !important;
   &:hover {
     transform: none !important;
   }
@@ -49,7 +52,7 @@ const CourseDetails = ({ course, t, lng }) => {
     <StyledSegment>
       <Grid columns={2} stackable>
         <Grid.Column>
-          <Grid columns={2} style={{ padding: "1em 5em" }}>
+          <Grid columns={2} style={{ padding: "1em 2.5em" }}>
             <Grid.Column style={{ textAlign: "center" }}>
               <Statistic>
                 <Statistic.Value>

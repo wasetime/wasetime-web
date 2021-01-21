@@ -6,7 +6,5 @@ install:
 script:
   - npm test
   - bash scripts/build.sh
-after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash scripts/deploy.sh; fi'
 git:
   depth: false

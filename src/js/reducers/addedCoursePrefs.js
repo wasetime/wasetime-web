@@ -2,6 +2,7 @@ import {
   HYDRATE_ADDED_COURSES,
   ADD_COURSE,
   REMOVE_COURSE,
+  SAVE_TIMETABLE,
   CHANGE_COURSE_COLOR,
   TOGGLE_COURSE_VISIBILITY,
 } from "../actions/types";
@@ -26,6 +27,17 @@ const addedCoursePrefs = (state = [], action) => {
       ];
     case REMOVE_COURSE:
       return state.filter((coursePref) => coursePref.id !== action.payload.id);
+    case SAVE_TIMETABLE:
+      // action.payload.coursesAndPrefs: [
+      //   { id: STR, color: INT, displayLang: STR, courses: [{...}] },
+      //   ...
+      // ]
+      return action.payload.coursesAndPrefs.map((courseAndPref) => ({
+        id: courseAndPref.id,
+        color: courseAndPref.color,
+        displayLang: courseAndPref.displayLang,
+        visibility: true,
+      }));
     case CHANGE_COURSE_COLOR:
       return state.map((coursePref) =>
         coursePref.id === action.payload.id

@@ -5,13 +5,13 @@ import SortingOptions from "./SortingOptions";
 import { RowWrapper } from "../styled-components/Wrapper";
 import { InvisibleButton } from "../styled-components/Button";
 import { withNamespaces } from "react-i18next";
+import { Label, Dropdown } from "semantic-ui-react";
+import { SYLLABUS_KEYS } from "../config/syllabusKeys";
+import { ADDED_ORDER, COURSE_TITLE, COURSE_TIME } from "../data/sortingOptions";
 import PropTypes from "prop-types";
 
-const CourseAddedMessageWrapper = styled(RowWrapper)`
-  justify-content: space-between;
-`;
-
 const SortByButton = styled(InvisibleButton)`
+  margin-left: auto;
   display: flex;
   &:hover {
     fill: #b51e36;
@@ -25,6 +25,54 @@ const SortByButton = styled(InvisibleButton)`
   color: ${(props) => (props.isSortingOptionOpen ? "#b51e36;" : "#000;")};
 `;
 
+const StyledLabel = styled(Label)`
+  padding: 0.6rem !important;
+`;
+
+const StyledDropdown = styled(Dropdown)`
+  font-size: 1.4rem !important;
+  font-family: Segoe UI, Yu Gothic Medium, Lato;
+  font-display: swap;
+  height: 2em !important;
+  min-height: 2em !important;
+  width: 40% !important;
+  min-width: 40% !important;
+  padding: 0.6rem !important;
+  margin-left: auto;
+
+  i {
+    padding: 0.6rem !important;
+  }
+`;
+
+const creditSum = (coursesAndPrefs) => {
+  return coursesAndPrefs
+    .map((courseAndPref) =>
+      courseAndPref.course
+        ? courseAndPref.course[SYLLABUS_KEYS.CREDIT]
+        : courseAndPref[SYLLABUS_KEYS.CREDIT]
+    )
+    .reduce((a, b) => a + b, 0);
+};
+
+const sortingOptions = (t) => [
+  {
+    key: ADDED_ORDER,
+    text: t("syllabus.Added order"),
+    value: ADDED_ORDER,
+  },
+  {
+    key: COURSE_TITLE,
+    text: t("syllabus.Course title"),
+    value: COURSE_TITLE,
+  },
+  {
+    key: COURSE_TIME,
+    text: t("syllabus.Course time"),
+    value: COURSE_TIME,
+  },
+];
+
 const CourseListSummary = ({
   courses,
   isSortingOptionOpen,
@@ -34,26 +82,24 @@ const CourseListSummary = ({
   t,
 }) => {
   return (
-    <div>
-      <CourseAddedMessageWrapper>
-        <span>
-          {`${courses.length}`} {t("timetable.courses added")}{" "}
-        </span>
-        <SortByButton
-          isSortingOptionOpen={isSortingOptionOpen}
-          onClick={handleToggleSortingOptions}
-        >
-          <span>{t("timetable.Sort by")}&nbsp;</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-          >
-            <path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" />
-          </svg>
-        </SortByButton>
-      </CourseAddedMessageWrapper>
+    <div style={{ marginBottom: "1rem" }}>
+      <RowWrapper>
+        <StyledLabel size="big" color="grey" basic>
+          {`${courses.length}`} {t("timetable.courses")}{" "}
+        </StyledLabel>
+        <StyledLabel size="big" color="grey" basic>
+          {creditSum(courses)} {t("timetable.credits")}
+        </StyledLabel>
+
+        <StyledDropdown
+          placeholder={t("timetable.Sort by")}
+          selection
+          options={sortingOptions(t)}
+          onChange={(e, data) => {
+            handleChangeSortingOption(data.value);
+          }}
+        />
+      </RowWrapper>
       {isSortingOptionOpen && (
         <SortingOptions
           selectedSortingOption={selectedSortingOption}

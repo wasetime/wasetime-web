@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
 const fetchedList = (actionTypes) => {
-  const ids = (state = [], action) => {
+  const ids = (state = {}, action) => {
     switch (action.type) {
       case actionTypes.fetchSuccess:
-        var ids = {};
-        const coursesBySchool = action.response["coursesBySchool"];
+        var ids = { ...state };
+        const coursesBySchool = action.payload["coursesBySchool"];
 
         Object.keys(coursesBySchool).forEach((school) => {
           if (coursesBySchool[school].result) {
@@ -14,8 +14,8 @@ const fetchedList = (actionTypes) => {
         });
         return ids;
       case actionTypes.addSchoolFetchSuccess:
-        const courses = action.response["courses"];
-        const school = action.response["school"];
+        const courses = action.payload["courses"];
+        const school = action.payload["school"];
         return {
           ...state,
           [school]: courses.result || [],
@@ -48,9 +48,9 @@ const fetchedList = (actionTypes) => {
   const fetchedTime = (state = null, action) => {
     switch (action.type) {
       case actionTypes.fetchSuccess:
-        return action.response.fetchedTime;
+        return action.payload.fetchedTime;
       case actionTypes.addSchoolFetchSuccess:
-        return action.response.fetchedTime;
+        return action.payload.fetchedTime;
       default:
         return state;
     }

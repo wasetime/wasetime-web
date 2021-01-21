@@ -23,7 +23,7 @@ export const Arrow = styled("div")`
     height: 0;
     border-style: solid;
   }
-  z-index: 1050;
+  z-index: 105;
 `;
 
 export const PopperBox = styled("div")`
@@ -38,5 +38,5 @@ export const PopperBox = styled("div")`
   margin: 0.9em;
   padding: 0.5em;
   text-align: center;
-  z-index: 1050;
+  z-index: 105;
 `;

@@ -16,7 +16,7 @@ const StyledUpdates = styled("div")`
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 105;
   color: white;
 `;
 

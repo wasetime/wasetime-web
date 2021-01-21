@@ -34,7 +34,7 @@ export const InvisibleButton = styled("button")`
 
 export const FloatingActionButton = styled(InvisibleButton)`
   position: fixed;
-  z-index: 3050;
+  z-index: 405;
   width: ${(props) => props.width};
   height: 56px;
   justify-content: center;

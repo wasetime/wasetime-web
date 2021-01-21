@@ -37,7 +37,7 @@ class ModalContainer extends React.Component {
         <span>
           <InvisibleButton
             style={{
-              color: "#ffffff",
+              color: "#1e70bf",
               textDecoration: "underline",
               cursor: "pointer",
             }}

@@ -34,6 +34,7 @@ const evalChartOptions = {
     labels: {
       boxWidth: 12,
     },
+    onClick: (e) => e.stopPropagation(),
   },
   tooltips: {
     callbacks: {

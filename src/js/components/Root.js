@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import ReactGA from "react-ga";
 import { Route, BrowserRouter } from "react-router-dom";
 import debounce from "lodash/debounce";
+import * as Sentry from "@sentry/react";
 
 import App from "./App";
 
@@ -70,14 +71,16 @@ const Root = ({ store }) => {
   ReactGA.initialize(trackingId, { debug: debug, titleCase: false });
   const analyticsRoute = <Route path="/" component={Analytics} />;
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div>
-          {analyticsRoute}
-          <App />
-        </div>
-      </BrowserRouter>
-    </Provider>
+    <Sentry.ErrorBoundary fallback={"An error has occurred"}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <div>
+            {analyticsRoute}
+            <App />
+          </div>
+        </BrowserRouter>
+      </Provider>
+    </Sentry.ErrorBoundary>
   );
 };
 

@@ -74,7 +74,7 @@ const ShareButton = ({
   display,
   shareLink,
   sizesDesktop,
-  isInCourseReviewsPage,
+  isDetailDisplayed,
   isPopperOpen,
   handleToggleSharePopper,
   needLineBreak,
@@ -84,7 +84,7 @@ const ShareButton = ({
   const shareButtonBar = ( // Share Button Function for large page
     <MediaQuery minWidth={sizesDesktop}>
       {(matches) => {
-        if (matches && isInCourseReviewsPage && display === "bar") {
+        if (matches && isDetailDisplayed && display === "bar") {
           return (
             <Reference>
               {({ ref }) => (
@@ -125,7 +125,7 @@ const ShareButton = ({
   const shareButtonIcon = ( // Share Button Function for small page
     <MediaQuery maxWidth={sizesDesktop}>
       {(matches) => {
-        if (matches && isInCourseReviewsPage && display === "icon") {
+        if (matches && isDetailDisplayed && display === "icon") {
           return (
             <Reference>
               {({ ref }) => (

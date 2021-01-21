@@ -11,7 +11,7 @@ const CourseReviewsGroupWrapper = styled("div")`
 `;
 
 const ReviewsHeader = styled("h3")`
-  margin: 0;
+  margin: -8px 8px 0 8px;
   text-align: center;
   background: #eee;
 `;
@@ -23,7 +23,7 @@ const CourseReviewsGroup = ({ course, reviews, searchLang, reviewLang, t }) => {
         searchTerm={""}
         searchLang={searchLang}
         course={course}
-        isInCourseReviewsPage={true}
+        isDetailDisplayed={false}
         needLineBreak={true}
       />
       <ReviewsHeader>{t(`courseInfo.Reviews`)}</ReviewsHeader>

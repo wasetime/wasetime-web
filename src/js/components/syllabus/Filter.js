@@ -6,42 +6,45 @@ import { Button } from "semantic-ui-react";
 import styled from "styled-components";
 import { withNamespaces } from "react-i18next";
 
-import {
-  headerHeight,
-  searchBarHeight,
-} from "../../styled-components/variables";
+import { headerHeight } from "../../styled-components/variables";
 import FilterGroup from "./FilterGroup";
 import FilterEvalGroup from "./FilterEvalGroup";
 import { Wrapper } from "../../styled-components/Wrapper";
 import { Overlay } from "../../styled-components/Overlay";
 
 const FilterWrapper = styled(Wrapper)`
+  ${(props) => !props.isSideBar && "width: 100%;"}
   flex: none;
+  position: fixed !important
+  height: ${(props) => (props.isSideBar ? "calc(100vh - 70px)" : "100vh")};
   overflow-y: auto;
-  height: ${(props) =>
-    props.isSideBar
-      ? `calc(100vh - ${props.theme.headerHeight} - ${props.theme.searchBarHeight});`
-      : "auto"};
 `;
 
 const FilterOverlay = styled(Overlay)`
   padding: ${(props) =>
-    props.isSideBar ? "0.5em 1em 1em 1em;" : "1.5em 1.2em;"}
-  background-color: ${(props) => (props.isSideBar ? "#ccc;" : "#fff;")};
+    props.isSideBar ? "0.5em 1em 1em 1em;" : "0.7em 1.2em;"};
 `;
 
 const FilterTitle = styled("span")`
   display: flex;
   align-items: center;
-  font-size: ${(props) => (props.isSideBar ? "1em" : "1.3em")};
+  font-size: 1.1em;
+  font-family: Segoe UI, Yu Gothic Medium, Lato;
+  font-display: swap;
+`;
+
+const FilterClearButton = styled(Button)`
+  color: #b51e36 !important;
+  background: #fff !important;
+  font-weight: 500 !important;
 `;
 
 const FilterGroupWrapper = styled("div")`
   background-color: #fff;
   flex: 1 0 auto;
-  padding: 1em;
+  padding: 1rem;
   margin-top: 0.2em;
-  font-size: 14px;
+  font-size: 11px;
 `;
 
 class Filter extends React.Component {
@@ -55,9 +58,7 @@ class Filter extends React.Component {
 
     this.createStickyWrapper = () => {
       if (this.wrapper) {
-        const offset = this.props.isSideBar
-          ? parseInt(headerHeight, 10) + parseInt(searchBarHeight, 10)
-          : 0;
+        const offset = this.props.isSideBar ? parseInt(headerHeight, 10) : 0;
         this.stickyWrapper = stickybits(this.wrapper, {
           stickyBitStickyOffset: offset,
         });
@@ -244,16 +245,16 @@ class Filter extends React.Component {
       isChecked: filterGroups[dayInputName].includes(input.value),
     }));
 
-    const periodLegend = t("syllabus.period");
+    const periodLegend = t("syllabus.period.Period");
     const periodInputName = "period";
     const periodInputs = [
-      { value: "1", label: "1" },
-      { value: "2", label: "2" },
-      { value: "3", label: "3" },
-      { value: "4", label: "4" },
-      { value: "5", label: "5" },
-      { value: "6", label: "6" },
-      { value: "7", label: "7" },
+      { value: "1", label: t("syllabus.period.1") },
+      { value: "2", label: t("syllabus.period.2") },
+      { value: "3", label: t("syllabus.period.3") },
+      { value: "4", label: t("syllabus.period.4") },
+      { value: "5", label: t("syllabus.period.5") },
+      { value: "6", label: t("syllabus.period.6") },
+      { value: "7", label: t("syllabus.period.7") },
     ];
     const checkedPeriodInputs = periodInputs.map((input) => ({
       ...input,
@@ -414,16 +415,13 @@ class Filter extends React.Component {
       <FilterWrapper innerRef={this.setWrapperRef} isSideBar={isSideBar}>
         <FilterOverlay isSideBar={isSideBar}>
           <FilterTitle isSideBar={isSideBar}>
-            {t("syllabus.Filter by")}&nbsp;
             <FontAwesomeIcon icon={faFilter} size="1x" />
             &nbsp;
-            <Button
-              color="gray"
-              onClick={clearFilter}
-              style={{ fontSize: "1.5rem", padding: "0.5rem 1rem" }}
-            >
+            <b>{t("syllabus.Filter by")}</b>
+            &nbsp;
+            <FilterClearButton size="big" onClick={clearFilter}>
               {t("syllabus.Clear filter")}
-            </Button>
+            </FilterClearButton>
           </FilterTitle>
           <FilterGroupWrapper>
             <FilterGroup

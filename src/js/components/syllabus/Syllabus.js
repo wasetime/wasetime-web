@@ -4,7 +4,7 @@ import {Helmet} from "react-helmet";
 import SyllabusSearch from "./SyllabusSearch";
 import {RowWrapper} from "../../styled-components/Wrapper";
 
-const Syllabus = () => {
+const Syllabus = (props) => {
   return (
     <RowWrapper>
       <Helmet>

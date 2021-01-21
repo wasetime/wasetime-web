@@ -10,8 +10,8 @@ import styled from "styled-components";
 import ReactGA from "react-ga";
 import { gaLanguage } from "../ga/eventCategories";
 import { gaAppendActionWithLng, gaChangeLanguage } from "../ga/eventActions";
-
 import { media } from "../styled-components/utils";
+
 import LANGS from "../config/langs";
 
 const StyledButton = styled("button")`
@@ -21,15 +21,10 @@ const StyledButton = styled("button")`
   border: none;
   outline: none;
   padding: 0;
-  margin: 0;
+  margin: 0 1rem;
+  color: #b51e36;
   background-color: inherit;
-  color: #fff;
-`;
-
-const StyledSpan = styled("span")`
-  font-size: 0.55em;
-  font-weight: 100;
-  ${media.phone`font-size: 0.5em;`};
+  ${media.phone`margin: 0.5em 0 0 0.5em; font-size: 0.6em; color: #fff;`}
 `;
 
 class LanguangeMenu extends React.Component {
@@ -59,12 +54,10 @@ class LanguangeMenu extends React.Component {
 
   render() {
     const { anchorEl } = this.state;
-    const { t } = this.props;
     return (
-      <div style={{ marginLeft: "auto" }}>
+      <div style={{ float: "right" }}>
         <StyledButton onClick={this.handleClick}>
-          <FontAwesomeIcon icon={faLanguage} size="2x" transform="shrink-2" />
-          <StyledSpan>{t("navigation.language")}</StyledSpan>
+          <FontAwesomeIcon icon={faLanguage} size="3x" transform="shrink-2" />
         </StyledButton>
         <Menu
           id="language-menu"

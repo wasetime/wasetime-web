@@ -32,16 +32,19 @@ const RowWrapper = styled("div")`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  overflow-y: hidden;
-  background-color: #ccc;
+  padding: 1em 1em 0px 1em;
 `;
 
 const StyledSegment = styled(Segment)`
   width: 100% !important;
+  min-height: ${(props) => (props.isSchoolFilterOpened ? "120px" : "40px")};
   cursor: default !important;
   animation: none !important;
   border-radius: 5px !important;
   box-shadow: none !important;
+  margin: 1em 2em 0em;
+  padding: 0.5rem 1em 0px !important;
+  transition: min-height 0.3s !important;
 
   &:hover {
     border-radius: 5px !important;
@@ -55,9 +58,20 @@ const WiderPopup = styled(Popup)`
   }
 `;
 
-const LargerButton = styled(Button)`
+const ChooseSchoolButton = styled(Button)`
   font-size: 14px !important;
   padding: 0.5em 1em !important;
+  color: #777 !important;
+  ${media.phoneMini`font-size: 11px !important;`}
+  i {
+    color: #48af37 !important;
+  }
+`;
+
+const RemoveSchoolButton = styled(ChooseSchoolButton)`
+  i {
+    color: #ce0115 !important;
+  }
 `;
 
 class SchoolFilterForm extends React.Component {
@@ -75,10 +89,16 @@ class SchoolFilterForm extends React.Component {
       handleToggleFilter("school", loadedSchools[0]);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.loadedSchools !== this.props.loadedSchools) {
+      this.setState({ loadedSchools: this.props.loadedSchools });
+    }
+  }
+
   schoolImportPanes = () => {
     const { loadedSchools, loadingSchool, schoolsUpToLimit } = this.state;
     const { t } = this.props;
-    const schoolGroupNames = ["Undergraduate", "Graduate", "Other"];
+    const schoolGroupNames = ["Undergraduate", "Graduate", "Special"];
     const ImportCardGroup = ({ schoolNameIconMap, itemsPerRow }) => (
       <Card.Group itemsPerRow={itemsPerRow} style={{ marginTop: "0.5em" }}>
         {Object.keys(schoolNameIconMap).map((schoolName) => (
@@ -233,9 +253,7 @@ class SchoolFilterForm extends React.Component {
     const { t, handleToggleFilter, selectedSchools } = this.props;
     return (
       <RowWrapper>
-        <StyledSegment
-          style={{ margin: "1em 2em 0em", padding: "0.5em 1em 0px" }}
-        >
+        <StyledSegment isSchoolFilterOpened={this.state.isSchoolFilterOpened}>
           <Header
             as="h2"
             onClick={() =>
@@ -272,10 +290,11 @@ class SchoolFilterForm extends React.Component {
               <Button.Group>
                 <WiderPopup
                   trigger={
-                    <LargerButton
-                      color="green"
+                    <ChooseSchoolButton
+                      inverted
+                      color="grey"
                       icon="add"
-                      content={t("syllabus.School Filter.Import")}
+                      content={t("syllabus.School Filter.Choose Schools")}
                     />
                   }
                   content={<Tab panes={this.schoolImportPanes()} />}
@@ -286,10 +305,11 @@ class SchoolFilterForm extends React.Component {
                 />
                 <WiderPopup
                   trigger={
-                    <LargerButton
-                      color="red"
+                    <RemoveSchoolButton
+                      inverted
+                      color="grey"
                       icon="minus"
-                      content={t("syllabus.School Filter.Remove")}
+                      content={t("syllabus.School Filter.Remove Schools")}
                     />
                   }
                   content={this.schoolRemoveForm()}
@@ -307,23 +327,22 @@ class SchoolFilterForm extends React.Component {
                 <Message.Header>
                   {t("syllabus.School Filter.No imported")}
                 </Message.Header>
-                <p>
-                  {t("syllabus.School Filter.Import request")}{" "}
-                  <Popup
-                    trigger={
-                      <LargerButton
-                        color="green"
-                        icon="add"
-                        content={t("syllabus.School Filter.Import")}
-                      />
-                    }
-                    content={<Tab panes={this.schoolImportPanes()} />}
-                    on="click"
-                    position="bottom left"
-                    size="huge"
-                    wide="very"
-                  />
-                </p>
+                <p>{t("syllabus.School Filter.Import request")}</p>
+                <Popup
+                  trigger={
+                    <ChooseSchoolButton
+                      inverted
+                      color="grey"
+                      icon="add"
+                      content={t("syllabus.School Filter.Choose Schools")}
+                    />
+                  }
+                  content={<Tab panes={this.schoolImportPanes()} />}
+                  on="click"
+                  position="bottom left"
+                  size="huge"
+                  wide="very"
+                />
               </Message>
             )}
 

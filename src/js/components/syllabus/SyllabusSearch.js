@@ -4,9 +4,9 @@ import styled from "styled-components";
 
 import AddedCourseListSwitch from "../../containers/syllabus/AddedCourseListSwitch";
 import FetchedCourseListSearch from "../../containers/syllabus/FetchedCourseListSearch";
-import {RowWrapper} from "../../styled-components/Wrapper";
-import {SideBar} from "../../styled-components/SideBar";
-import {sizes} from "../../styled-components/utils";
+import { RowWrapper } from "../../styled-components/Wrapper";
+import { SideBar } from "../../styled-components/SideBar";
+import { sizes } from "../../styled-components/utils";
 import withFetchCourses from "../../hocs/withFetchCourses";
 
 const ExtendedRowWrapper = styled(RowWrapper)`
@@ -14,9 +14,9 @@ const ExtendedRowWrapper = styled(RowWrapper)`
 `;
 
 const SyllabusSearch = (props) => {
-    const {addedCoursesAndPrefs, fetchedCourses} = props;
-    return (
-        <ExtendedRowWrapper>
+  const { addedCoursesAndPrefs, fetchedCourses } = props;
+  return (
+    <ExtendedRowWrapper>
       <MediaQuery minWidth={sizes.tablet}>
         {(matches) =>
           matches && (

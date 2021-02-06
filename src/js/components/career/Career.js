@@ -4,10 +4,10 @@ import { Helmet } from "react-helmet";
 import { Wrapper } from "../../styled-components/Wrapper";
 import { withNamespaces } from "react-i18next";
 
-import CareerList from "./CareerInternList";
+import Intern from "./Intern";
 import CareerArticles from "./CareerArticles";
-import CareerRecruit from "./CareerRecruit";
-import CareerSeminar from "./CareerSeminar";
+import Arbeit from "./Arbeit";
+import Seminar from "./Seminar";
 
 const Career = ({ t }) => {
   return (
@@ -33,7 +33,7 @@ const Career = ({ t }) => {
           <button className="ui button">{t("career.Seminar")}</button>
         </Link>
         <Link to="/career/recruit">
-          <button className="ui button">{t("career.Recruit")}</button>
+          <button className="ui button">{t("career.Arbeit")}</button>
         </Link>
         <Link to="/career/articles">
           <button className="ui button">{t("career.Articles")}</button>
@@ -44,9 +44,9 @@ const Career = ({ t }) => {
             path="/career"
             render={() => <Redirect to="/career/intern" />}
           />
-          <Route exact path="/career/intern" component={CareerList} />
-          <Route exact path="/career/recruit" component={CareerRecruit} />
-          <Route exact path="/career/seminar" component={CareerSeminar} />
+          <Route exact path="/career/intern" component={Intern} />
+          <Route exact path="/career/recruit" component={Arbeit} />
+          <Route exact path="/career/seminar" component={Seminar} />
           <Route exact path="/career/articles" component={CareerArticles} />
         </Switch>
       </div>

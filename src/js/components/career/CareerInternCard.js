@@ -11,8 +11,21 @@ import {
 import { withNamespaces } from "react-i18next";
 import "./CareerInternCard.css";
 
-const CareerCard = ({ company, t }) => {
+/*
+  {
+
+    URL: "https://bit.ly/2YzPmUS",
+    Payment: 0,
+    Description:
+      "【面向工程师的医疗行业实习】 【时薪1,300~1,800日元】 【可远程工作】",
+  },
+
+*/
+
+const CareerCard = ({ careerInformation, t }) => {
   const [browserWidth, setBrowserWidth] = useState(document.body.clientWidth);
+  const [showElem, setShowElem] = useState(false);
+
   useEffect(() => {
     window.addEventListener("resize", handleBrowserWidth);
     return () => {
@@ -23,6 +36,7 @@ const CareerCard = ({ company, t }) => {
   const handleBrowserWidth = () => {
     setBrowserWidth(document.body.clientWidth);
   };
+
   return (
     <div className="ui segment">
       <div
@@ -39,65 +53,89 @@ const CareerCard = ({ company, t }) => {
       </div>
       <div className="company-detail">
         <div className="ui list">
-          <h3 style={{ fontSize: "17px" }}>{company.title}</h3>
-          <p style={{ marginTop: "20px", marginBottom: "30px" }}>
-            {company.description}
-          </p>
-          <div className="ui section divider"></div>
+          <h3 style={{ fontSize: "17px" }}>{careerInformation.Title}</h3>
 
           <div>
-            <div className="company-part1">
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faBuilding}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.company}
-              </div>
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faSearchLocation}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.type}
-              </div>
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faMapMarkerAlt}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.area}
-              </div>
-            </div>
-            <div className="company-part2">
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faBriefcase}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.category}
-              </div>
-
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faYenSign}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.pay}
-              </div>
-              <div className="item">
-                <FontAwesomeIcon
-                  icon={faCalendarWeek}
-                  size="2x"
-                  transform="shrink-2"
-                />
-                {" " + company.worktime}
-              </div>
+            <div className="company detail">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold", marginRight: "50px" }}>
+                        {t("career.Corporation")}
+                      </span>
+                    </td>
+                    <td className="company name">
+                      <span>{careerInformation.Corporation}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold" }}>
+                        {t("career.Field")}
+                      </span>
+                    </td>
+                    <td className="company field">
+                      <span>{careerInformation.Field}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold" }}>
+                        {t("career.Language")}
+                      </span>
+                    </td>
+                    <td className="language">
+                      <span>{careerInformation.Language}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold" }}>
+                        {t("career.Request")}
+                      </span>
+                    </td>
+                    <td className="request">
+                      <span>{careerInformation.Request}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold" }}>
+                        {t("career.Deadline")}
+                      </span>
+                    </td>
+                    <td className="deadline">
+                      <span>{careerInformation.DEADLINE}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style={{ fontWeight: "bold" }}>
+                        {t("career.Payment")}
+                      </span>
+                    </td>
+                    <td className="deadline">
+                      <span>{careerInformation.Payment}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              {showElem ? (
+                <div>
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      marginRight: "50px",
+                    }}
+                  >
+                    {t("career.Description")}
+                  </span>
+                  <p style={{ display: "inline" }}>
+                    {careerInformation.Description}
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -105,14 +143,16 @@ const CareerCard = ({ company, t }) => {
       <div className="ui section divider"></div>
       <div className="job-button">
         <button
-          onClick={() => window.open("https://www.doorkel.com/")}
+          onClick={() => {
+            setShowElem(!showElem);
+          }}
           className="ui primary button"
           style={{ fontSize: "12px" }}
         >
-          {t("career.viewMore")}
+          {showElem ? t("career.Hide") : t("career.viewMore")}
         </button>
         <button
-          onClick={() => window.open("https://www.doorkel.com/")}
+          onClick={() => window.open(careerInformation.URL)}
           className="ui primary button"
           style={{ fontSize: "12px" }}
         >

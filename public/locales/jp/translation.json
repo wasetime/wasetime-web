@@ -278,8 +278,18 @@
   "career": {
     "Intern": "インターン",
     "Articles": "記事",
-    "viewMore": "インターン内容をもっと見る",
-    "Entry": "エントリー"
+    "viewMore": "内容をもっと見る",
+    "Hide": "内容を隠す",
+    "Entry": "エントリー",
+    "Seminar": "セミナー",
+    "Arbeit": "バイト",
+    "Corporation": "会社",
+    "Field": "分野",
+    "Language": "言語",
+    "Request": "要求",
+    "Deadline": "締め切り",
+    "Payment": "時給",
+    "Description": "詳細"
   },
   "coronaInfo": {
     "title": "新型コロナウイルス感染症情報",

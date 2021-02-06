@@ -22,7 +22,7 @@
 }
 
 .company-image-large-width img {
-  max-width: 30%;
+  max-width: 40%;
   float: left; /*左侧图片混排*/
   margin-right: 25px; /* 图片右端与文字的距离 */
   margin-bottom: 5px;
@@ -31,16 +31,6 @@
 .company-image-short-width img {
   max-width: 100%;
   margin-bottom: 5px;
-}
-
-.company-part1 {
-  margin-right: 100px;
-  max-width: 50%;
-  float: left;
-}
-
-.company-part2 {
-  display: inline-block;
 }
 
 .job-button {

@@ -2,29 +2,32 @@ import React from "react";
 import styled from "styled-components";
 import stickybits from "stickybits";
 
-import {headerHeight} from "../../styled-components/variables";
-import {RowWrapper} from "../../styled-components/Wrapper";
+import { headerHeight } from "../../styled-components/variables";
+import { RowWrapper } from "../../styled-components/Wrapper";
 
 const ExtendedWrapper = styled(RowWrapper)`
   flex: none;
   align-items: center;
   justify-content: space-around;
   height: ${(props) => props.height};
-  width: 100%;
-  background-color: ${(props) => props.theme.grey7};
-  z-index: 1030;
+  width: 21em;
+  background-color: ${(props) => props.theme.white};
+  z-index: 103;
+  position: fixed !important;
 `;
 
 const SwitchButton = styled("button")`
   width: 100%;
   height: 100%;
   background-color: ${(props) =>
-    props.isSelected ? props.theme.grey4 : "unset"};
+    props.isSelected ? props.theme.white : "unset"};
   border: none;
-  padding: 0;
-  color: ${(props) => props.theme.white};
+  border-bottom: ${(props) => (props.isSelected ? "3px solid #ccc" : "none")};
+  padding: 5px;
+  color: ${(props) => props.theme.grey2};
   &:hover {
-    background-color: ${(props) => props.theme.grey4};
+    background-color: #ccc;
+    border-bottom: "3px solid #ccc";
   }
   &:focus {
     outline: 0;

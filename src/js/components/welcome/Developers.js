@@ -1,13 +1,22 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import {media} from "../../styled-components/utils";
+import { media } from "../../styled-components/utils";
 import styled from "styled-components";
-import {faFacebook, faGithub, faInstagram, faTwitter, faWeibo,} from "@fortawesome/free-brands-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faTwitter,
+  faGithub,
+  faInstagram,
+  faWeibo,
+  faLink,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import oscar from "../../../img/contributors/oscar.jpg";
 import mei from "../../../img/contributors/mei.jpg";
 import hao from "../../../img/contributors/hao.jpg";
+import austin from "../../../img/contributors/austin.jpg";
+import kong from "../../../img/contributors/kong.JPG";
 
 const Wrapper = styled("div")`
   display: flex;
@@ -136,6 +145,53 @@ const Developers = ({ t }) => {
           <Position>{t("welcome.Frontend")}</Position>
           <Bio>
             <i>{t("welcome.May WasedaTime be with you")}</i>
+          </Bio>
+        </Introduction>
+      </Wrapper>
+      <Wrapper>
+        <StyledAvatar alt="Austin" src={austin} />
+        <Introduction>
+          <Name>
+            Austin
+            <StyledIcon
+              href="https://www.instagram.com/austinzhu123/"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={faInstagram}
+                size="1x"
+                transform="shrink-2"
+              />
+            </StyledIcon>
+            <StyledIcon href="https://austinzhu.dev/" target="_blank">
+              <FontAwesomeIcon icon={faLink} size="1x" transform="shrink-2" />
+            </StyledIcon>
+          </Name>
+          <Position>{t("welcome.Frontend")}</Position>
+          <Bio>
+            <i>
+              WasedaTime is gonna be legendary!
+              {/* t("welcome.WasedaTime is gonna be legendary") */}
+            </i>
+          </Bio>
+        </Introduction>
+      </Wrapper>
+      <Wrapper>
+        <StyledAvatar alt="Kong" src={kong} />
+        <Introduction>
+          <Name>
+            Kong
+            {/* <StyledIcon href="" target="_blank">
+              <FontAwesomeIcon
+                icon={}
+                size="1x"
+                transform="shrink-2"
+              />
+            </StyledIcon> */}
+          </Name>
+          <Position>{t("welcome.Frontend")}</Position>
+          <Bio>
+            <i>{/* t("welcome.not provided yet") */}</i>
           </Bio>
         </Introduction>
       </Wrapper>

@@ -1,8 +1,8 @@
 import React from "react";
-import MediaQuery from "react-responsive";
+import { Auth } from "aws-amplify";
+import { connect } from "react-redux";
+import { getUserTokens } from "../../reducers/user";
 import API from "@aws-amplify/api";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import qs from "qs";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
@@ -13,106 +13,46 @@ import {
   gaCloseModal,
   gaOpenModal,
 } from "../../ga/eventActions";
+import Alert from "react-s-alert";
 import { SYLLABUS_KEYS } from "../../config/syllabusKeys";
 import levenshtein from "levenshtein-edit-distance";
 import { withNamespaces } from "react-i18next";
 import withFetchCourses from "../../hocs/withFetchCourses";
 
-import { media, sizes } from "../../styled-components/utils";
+import { media } from "../../styled-components/utils";
 import { RowWrapper, Wrapper } from "../../styled-components/Wrapper";
 import { Overlay } from "../../styled-components/Overlay";
 
 import CourseDetails from "./CourseDetails";
-import ReviewLangSwitches from "./ReviewLangSwitches";
-import RelatedCoursesButton from "./RelatedCoursesButton";
-import Modal from "../Modal";
-import FetchError from "../FetchError";
+import FetchError from "../../components/FetchError";
 import FetchedCourseItem from "../../containers/syllabus/FetchedCourseItem";
-import ReviewScalesCountContainer from "./ReviewScalesCountContainer";
-import RelatedCoursesContainer from "./RelatedCoursesContainer";
-import ReviewsList from "./ReviewsList";
+import CourseReviews from "./CourseReviews";
+import AddReviewForm from "./AddReviewForm";
 import LoadingSpinner from "../LoadingSpinner";
+import RelatedCourses from "./RelatedCourses";
+import SignInModal from "../user/SignInModal";
+import Header from "../Header";
 
 export const LongWrapper = styled(Wrapper)`
+  margin-top: 70px;
   flex: 1 1 auto;
-  ${media.tablet`flex: 0 0 auto; width: 100%`};
-`;
-
-export const ShortWrapper = styled(Wrapper)`
-  flex: 0 0 24em;
-  ${media.tablet`flex: 0 0 auto; width: 100%`};
+  width: calc(70vw - 65px);
+  max-width: calc(70vw - 65px);
+  ${media.tablet`margin-top: 0px; flex: 0 0 auto; width: 100%; max-width: 100%;`};
 `;
 
 const ExtendedOverlay = styled(Overlay)`
   padding: 0 25px;
-  ${media.tablet`padding-right: 2rem;`};
+  ${media.tablet`padding: 1rem 2rem;`}
+  ${media.phone`padding: 1rem;`}
 `;
-
-const Announcement = styled("div")`
-  background-color: #48af37;
-  color: #fff;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  padding: 5px 10px;
-  font-size: 0.7em;
-  border-radius: 3px;
-  line-height: normal;
-`;
-
-const Disclaimer = styled(Announcement)`
-  background-color: #aaa;
-  margin: 0.5rem 0px;
-`;
-
-const StyledSubHeading = styled("h2")`
-  align-self: flex-start;
-  margin: 1rem 0px;
-  padding-left: 1rem;
-  border-left: 5px solid rgb(148, 27, 47);
-  font-size: 2rem;
-  font-weight: 300;
-  ${media.tablet`font-size: 2rem;`};
-`;
-
-const ReviewsListWrapper = styled("div")`
-  max-height: 60vh;
-  overflow-y: auto;
-`;
-
-const modalStyle = {
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: "3030",
-  },
-  content: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#ccc",
-    overflowY: "auto",
-    overflowScrolling: "touch",
-    WebkitOverflowScrolling: "touch",
-    outline: "none",
-    padding: 0,
-  },
-};
 
 const getCourse = (loadedCourses, courseID) => {
   // Return null if courses not saved in localStorage or the course to display is not saved in localStorage
   return loadedCourses ? loadedCourses[courseID] : null;
 };
 
-const getCourseKey = (course) =>
-  ["SILS", "PSE"].includes(course[SYLLABUS_KEYS.SCHOOL]) &&
-  course[SYLLABUS_KEYS.TITLE].toLowerCase().includes("seminar")
-    ? course[SYLLABUS_KEYS.ID].substring(0, 12)
-    : course[SYLLABUS_KEYS.ID].substring(0, 10);
+const getCourseKey = (course) => course[SYLLABUS_KEYS.ID].substring(0, 12);
 
 const getRelatedCourses = (
   loadedCourses,
@@ -150,6 +90,16 @@ const getRelatedCourses = (
   return sortedRelatedCourses;
 };
 
+const getCourseID = (searchQuery) =>
+  qs.parse(searchQuery, {
+    ignoreQueryPrefix: true,
+  }).courseID;
+
+const getSearchLang = (searchQuery) =>
+  qs.parse(searchQuery, {
+    ignoreQueryPrefix: true,
+  }).searchLang;
+
 class CourseInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -157,18 +107,32 @@ class CourseInfo extends React.Component {
   }
 
   state = {
-    thisCourse: {},
+    thisCourse: getCourse(
+      this.props.fetchedCoursesById,
+      getCourseID(this.props.location.search)
+    ),
     relatedCourses: [],
     thisCourseReviews: [],
-    relatedCourseReviews: [],
+    relatedCourseReviews: {},
     avgSatisfaction: 0,
     avgDifficulty: 0,
     avgBenefit: 0,
-    searchLang: "",
+    searchLang: getSearchLang(this.props.location.search),
     reviewLang: "",
     isLoaded: false,
     isModalOpen: false,
     error: false,
+    isAddReviewFormOpen: false,
+    newReviewSatisfaction: 0,
+    newReviewDifficulty: 0,
+    newReviewBenefit: 0,
+    newReviewComment: "",
+    newReviewIsSending: false,
+    reviewFormMode: "new",
+    editReviewIndex: 0,
+    editReviewPrimaryKey: "",
+    editReviewOriginalText: "",
+    isSignInModalOpen: false,
   };
 
   componentDidMount() {
@@ -182,16 +146,9 @@ class CourseInfo extends React.Component {
   }
 
   async loadReviewsAndRelatedCourses() {
-    const courseID = qs.parse(this.props.location.search, {
-      ignoreQueryPrefix: true,
-    }).courseID;
-    const searchLang = qs.parse(this.props.location.search, {
-      ignoreQueryPrefix: true,
-    }).searchLang;
+    const thisCourse = this.state.thisCourse;
+    const searchLang = this.state.searchLang;
     let loadedCourses = this.props.fetchedCoursesById;
-    //loadState().fetchedCourses.byId;
-
-    const thisCourse = getCourse(loadedCourses, courseID);
     const thisCourseKey = getCourseKey(thisCourse);
 
     // 1. Get related courses by code, sort them, and get the first k courses (k=10)
@@ -203,6 +160,13 @@ class CourseInfo extends React.Component {
       thisCourse[SYLLABUS_KEYS.SCHOOL]
     );
 
+    this.setState({ relatedCourses: relatedCourses });
+
+    const relatedCoursesByKey = {};
+    relatedCourses.forEach((c) => {
+      relatedCoursesByKey[getCourseKey(c)] = c;
+    });
+
     // 2. Make the key of this course and keys of top 3 related courses into a list
     const courseKeysToFetchReviews = [thisCourseKey].concat(
       relatedCourses.slice(0, 3).map((course) => getCourseKey(course))
@@ -212,11 +176,24 @@ class CourseInfo extends React.Component {
     const courseReviews = await this.getCourseReviewsByKey(
       courseKeysToFetchReviews
     );
-    let thisCourseReviews = {};
+    let thisCourseReviews = [];
     let relatedCourseReviews = {};
-    courseReviews.forEach((c, i) => {
-      if (i === 0) thisCourseReviews = c.comments;
-      else relatedCourseReviews[courseKeysToFetchReviews[i]] = c.comments;
+    (courseReviews || []).forEach((c, i) => {
+      if (i === 0) thisCourseReviews = c.data;
+      else {
+        relatedCourseReviews[courseKeysToFetchReviews[i]] = c.data;
+        // Same first 10 digits of courseKey & same instructors => show same reviews
+        if (
+          thisCourseKey.substring(0, 10) ===
+            courseKeysToFetchReviews[i].substring(0, 10) &&
+          thisCourse[SYLLABUS_KEYS.INSTRUCTOR] ===
+            relatedCoursesByKey[courseKeysToFetchReviews[i]][
+              SYLLABUS_KEYS.INSTRUCTOR
+            ]
+        ) {
+          thisCourseReviews = [...thisCourseReviews, ...c.data];
+        }
+      }
     });
 
     let satisfactionSum = 0,
@@ -237,7 +214,6 @@ class CourseInfo extends React.Component {
 
     this._isMounted &&
       this.setState({
-        thisCourse: thisCourse,
         relatedCourses: relatedCourses,
         thisCourseReviews: thisCourseReviews,
         relatedCourseReviews: relatedCourseReviews,
@@ -245,23 +221,34 @@ class CourseInfo extends React.Component {
         avgDifficulty: avgDifficulty,
         avgBenefit: avgBenefit,
         searchLang: searchLang,
-        reviewLang: this.props.lng,
+        reviewLang: this.props.lng === "jp" ? "ja" : this.props.lng,
         isLoaded: true,
       });
   }
 
   async getCourseReviewsByKey(courseKeys) {
     try {
-      const res = await API.post("wasedatime-dev", "/course-reviews", {
-        body: { course_keys: courseKeys },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return res.data;
+      const reviews = await Promise.all(
+        courseKeys.map(async (courseKey) => {
+          const res = await API.get(
+            "wasedatime-dev",
+            "/course-reviews/" +
+              courseKey +
+              "?uid=" +
+              (this.props.userTokens ? this.props.userTokens.sub : ""),
+            {
+              headers: {
+                "x-api-key": "0PaO2fHuJR9jlLLdXEDOyUgFXthoEXv8Sp0oNsb8",
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          return res;
+        })
+      );
+      return reviews;
     } catch (error) {
       console.error(error);
-      this.setState({ error: true });
     }
   }
 
@@ -281,6 +268,243 @@ class CourseInfo extends React.Component {
 
   switchReviewLang = (lang) => this.setState({ reviewLang: lang });
 
+  toggleAddReviewForm = () => {
+    if (this.props.userTokens) {
+      this.setState({
+        isAddReviewFormOpen: !this.state.isAddReviewFormOpen,
+      });
+    } else {
+      this.setState({ isSignInModalOpen: true });
+    }
+  };
+
+  openReviewNewForm = () => {
+    this.setState(
+      {
+        reviewFormMode: "new",
+        newReviewSatisfaction: 0,
+        newReviewDifficulty: 0,
+        newReviewBenefit: 0,
+        newReviewComment: "",
+        editReviewIndex: 0,
+        editReviewPrimaryKey: "",
+        editReviewOriginalText: "",
+      },
+      this.toggleAddReviewForm
+    );
+  };
+
+  openReviewEditForm = (review) => {
+    this.setState(
+      {
+        reviewFormMode: "edit",
+        newReviewSatisfaction: review["satisfaction"],
+        newReviewDifficulty: review["difficulty"],
+        newReviewBenefit: review["benefit"],
+        newReviewComment: review["src_comment"],
+        editReviewIndex: review["index"],
+        editReviewPrimaryKey: review["created_at"],
+        editReviewOriginalText: review["src_comment"],
+      },
+      this.toggleAddReviewForm
+    );
+  };
+
+  onNewReviewScaleChange = (target, score) => {
+    switch (target) {
+      case "satisfaction":
+        this.setState({ newReviewSatisfaction: score });
+        break;
+      case "difficulty":
+        this.setState({ newReviewDifficulty: score });
+        break;
+      case "benefit":
+        this.setState({ newReviewBenefit: score });
+        break;
+      default:
+        this.setState({ newReviewSatisfaction: score });
+    }
+  };
+
+  onNewReviewCommentChange = (text) =>
+    this.setState({ newReviewComment: text });
+
+  onNewReviewFormSubmit = () => {
+    if (!this.props.userTokens) {
+      this.setState({ isSignInModalOpen: true });
+      return;
+    }
+
+    const {
+      newReviewSatisfaction,
+      newReviewDifficulty,
+      newReviewBenefit,
+      newReviewComment,
+      reviewFormMode,
+      editReviewPrimaryKey,
+      editReviewOriginalText,
+    } = this.state;
+    if (
+      [
+        newReviewSatisfaction,
+        newReviewDifficulty,
+        newReviewBenefit,
+        newReviewComment.length,
+      ].some((scale) => scale === 0)
+    ) {
+      Alert.warning(
+        this.props.t(`courseInfo.Fill in all fields before sending`),
+        {
+          position: "bottom",
+          effect: "jelly",
+        }
+      );
+    } else {
+      const thisCourse = this.state.thisCourse;
+
+      let editReview = {
+        satisfaction: newReviewSatisfaction,
+        difficulty: newReviewDifficulty,
+        benefit: newReviewBenefit,
+      };
+      if (editReviewOriginalText !== newReviewComment) {
+        editReview = { ...editReview, comment: newReviewComment };
+      }
+      const newReview = {
+        ...editReview,
+        course_key: getCourseKey(thisCourse),
+        title: thisCourse[SYLLABUS_KEYS.TITLE],
+        title_jp: thisCourse[SYLLABUS_KEYS.TITLE_JP],
+        instructor: thisCourse[SYLLABUS_KEYS.INSTRUCTOR],
+        instructor_jp: thisCourse[SYLLABUS_KEYS.INSTRUCTOR_JP],
+        year: 2020,
+      };
+
+      try {
+        this.setState({ newReviewIsSending: true });
+
+        // Send the review
+        if (reviewFormMode === "new") {
+          API.post(
+            "wasedatime-dev",
+            "/course-reviews/" + getCourseKey(thisCourse),
+            {
+              body: {
+                data: newReview,
+              },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: this.props.userTokens
+                  ? this.props.userTokens.idToken
+                  : "",
+              },
+            }
+          ).then(async () => this.cleanFormAndUpdateReviews(newReview));
+        } else if (reviewFormMode === "edit") {
+          API.patch(
+            "wasedatime-dev",
+            "/course-reviews/" +
+              getCourseKey(thisCourse) +
+              "?ts=" +
+              editReviewPrimaryKey,
+            {
+              body: {
+                data: editReview,
+              },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: this.props.userTokens
+                  ? this.props.userTokens.idToken
+                  : "",
+              },
+            }
+          ).then(async () => this.cleanFormAndUpdateReviews(newReview));
+        }
+      } catch (error) {
+        Alert.error(this.props.t(`courseInfo.Review failed to send`), {
+          position: "bottom",
+          effect: "jelly",
+        });
+      }
+    }
+  };
+
+  cleanFormAndUpdateReviews = async (newReview) => {
+    Alert.success(this.props.t(`courseInfo.Review sent`), {
+      position: "bottom",
+      effect: "jelly",
+    });
+
+    const thisCourseKey = getCourseKey(this.state.thisCourse);
+
+    const thisCourseReviewsRes = await API.get(
+      "wasedatime-dev",
+      "/course-reviews/" +
+        thisCourseKey +
+        "?uid=" +
+        (this.props.userTokens ? this.props.userTokens.sub : ""),
+      {
+        headers: {
+          "x-api-key": "0PaO2fHuJR9jlLLdXEDOyUgFXthoEXv8Sp0oNsb8",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    this.setState((prevState, props) => ({
+      thisCourseReviews: thisCourseReviewsRes.data,
+      isAddReviewFormOpen: false,
+      newReviewSatisfaction: 0,
+      newReviewDifficulty: 0,
+      newReviewBenefit: 0,
+      newReviewComment: "",
+      newReviewIsSending: false,
+      reviewFormMode: "new",
+      editReviewPrimaryKey: 0,
+      editReviewOriginalText: "",
+    }));
+  };
+
+  deleteReview = (reviewPrimaryKey, reviewIndex) => {
+    if (!this.props.userTokens) {
+      this.setState({ isSignInModalOpen: true });
+      return;
+    }
+    API.del(
+      "wasedatime-dev",
+      "/course-reviews/" +
+        getCourseKey(this.state.thisCourse) +
+        "?ts=" +
+        reviewPrimaryKey,
+      {
+        headers: {
+          Authorization: this.props.userTokens
+            ? this.props.userTokens.idToken
+            : "",
+        },
+      }
+    )
+      .then(() => {
+        Alert.success(this.props.t(`courseInfo.Review deleted`), {
+          position: "bottom",
+          effect: "jelly",
+        });
+
+        const reviews = this.state.thisCourseReviews;
+        reviews.splice(reviewIndex, 1);
+        this.setState({ thisCourseReviews: reviews });
+      })
+      .catch((e) => console.log(e));
+  };
+
+  signIn = () =>
+    Auth.federatedSignIn({
+      provider: "Google",
+      customState: window.location.pathname + window.location.search,
+    });
+
+  closeSignInModal = () => this.setState({ isSignInModalOpen: false });
+
   render() {
     const {
       thisCourse,
@@ -293,11 +517,19 @@ class CourseInfo extends React.Component {
       searchLang,
       reviewLang,
       isLoaded,
+      isModalOpen,
       error,
+      isAddReviewFormOpen,
+      newReviewSatisfaction,
+      newReviewDifficulty,
+      newReviewBenefit,
+      newReviewComment,
+      newReviewIsSending,
+      isSignInModalOpen,
     } = this.state;
     if (error)
       return <FetchError onRetry={this.loadReviewsAndRelatedCourses} />;
-    return isLoaded ? (
+    return (
       <RowWrapper>
         <Helmet>
           <title>WasedaTime - Course Reviews</title>
@@ -312,97 +544,81 @@ class CourseInfo extends React.Component {
           />
           <meta property="og:site_name" content="WasedaTime - Course Reviews" />
         </Helmet>
-
+        <Header
+          title={this.props.t("navigation.course info")}
+          placeholder="Search course (in construction...)"
+          disabled={true}
+        />
         <LongWrapper>
           <ExtendedOverlay>
             <div>
-              <Announcement>
-                <FontAwesomeIcon icon={faBullhorn} />{" "}
-                {this.props.t(`courseInfo.Thank WTSA 1`)}{" "}
-                <a
-                  href="https://www.facebook.com/WasedaTaiwaneseStudentAssociation/"
-                  style={{ color: "#fff" }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {this.props.t(`courseInfo.WTSA`)}
-                </a>
-                {this.props.t(`courseInfo.Thank WTSA 2`)}
-              </Announcement>
-              {isLoaded && (
-                <FetchedCourseItem
-                  searchTerm={""}
-                  searchLang={searchLang}
-                  course={thisCourse}
-                  isInCourseReviewsPage={true}
-                />
-              )}
+              <FetchedCourseItem
+                searchTerm={""}
+                searchLang={searchLang}
+                course={thisCourse}
+                isDetailDisplayed={true}
+              />
 
               <CourseDetails course={thisCourse} />
 
-              <StyledSubHeading>
-                {this.props.t(`courseInfo.Reviews`)}{" "}
-                <span style={{ marginLeft: "10px" }}>
-                  <ReviewLangSwitches
+              {isLoaded ? (
+                isAddReviewFormOpen ? (
+                  <AddReviewForm
+                    toggleModal={this.toggleAddReviewForm}
+                    satisfaction={newReviewSatisfaction}
+                    difficulty={newReviewDifficulty}
+                    benefit={newReviewBenefit}
+                    comment={newReviewComment}
+                    handleScaleChange={this.onNewReviewScaleChange}
+                    handleCommentChange={this.onNewReviewCommentChange}
+                    handleFormSubmit={this.onNewReviewFormSubmit}
+                    isSending={newReviewIsSending}
+                  />
+                ) : (
+                  <CourseReviews
+                    reviews={thisCourseReviews}
+                    scalesAvg={{
+                      satisfaction: avgSatisfaction,
+                      difficulty: avgDifficulty,
+                      benefit: avgBenefit,
+                    }}
+                    searchLang={searchLang}
                     reviewLang={reviewLang}
                     switchReviewLang={this.switchReviewLang}
-                    isInHeading={true}
+                    openReviewNewForm={this.openReviewNewForm}
+                    openReviewEditForm={this.openReviewEditForm}
+                    deleteReview={this.deleteReview}
+                    t={this.props.t}
                   />
-                </span>
-              </StyledSubHeading>
-              <Disclaimer>{this.props.t(`courseInfo.Disclaimer`)}</Disclaimer>
-              <ReviewsListWrapper>
-                <ReviewScalesCountContainer
-                  avgSatisfaction={avgSatisfaction}
-                  avgDifficulty={avgDifficulty}
-                  avgBenefit={avgBenefit}
-                  thisCourseReviewsLength={thisCourseReviews.length}
-                />
-                <ReviewsList
-                  reviews={thisCourseReviews}
-                  searchLang={searchLang}
-                  reviewLang={reviewLang}
-                />
-              </ReviewsListWrapper>
-              <br />
+                )
+              ) : (
+                <LoadingSpinner message={"Loading reviews..."} />
+              )}
             </div>
+            <br />
           </ExtendedOverlay>
         </LongWrapper>
-
-        {isLoaded && (
-          <MediaQuery minWidth={sizes.desktop}>
-            {(matches) => {
-              return matches ? (
-                <ShortWrapper>
-                  <RelatedCoursesContainer
-                    relatedCourses={relatedCourses}
-                    courseReviews={relatedCourseReviews}
-                    searchLang={searchLang}
-                  />
-                </ShortWrapper>
-              ) : (
-                <div>
-                  <RelatedCoursesButton
-                    isModalOpen={this.state.isModalOpen}
-                    handleToggleModal={this.handleToggleModal}
-                  />
-                  <Modal isOpen={this.state.isModalOpen} style={modalStyle}>
-                    <RelatedCoursesContainer
-                      relatedCourses={relatedCourses}
-                      courseReviews={relatedCourseReviews}
-                      searchLang={searchLang}
-                    />
-                  </Modal>
-                </div>
-              );
-            }}
-          </MediaQuery>
-        )}
+        <RelatedCourses
+          courses={relatedCourses}
+          reviews={relatedCourseReviews}
+          searchLang={searchLang}
+          isModalOpen={isModalOpen}
+          handleToggleModal={this.handleToggleModal}
+        />
+        <SignInModal
+          isModalOpen={isSignInModalOpen}
+          signIn={this.signIn}
+          closeModal={this.closeSignInModal}
+        />
       </RowWrapper>
-    ) : (
-      <LoadingSpinner message={"Loading reviews..."} />
     );
   }
 }
 
-export default withFetchCourses(withNamespaces("translation")(CourseInfo));
+const mapStateToProps = (state) => ({
+  userTokens: getUserTokens(state),
+});
+
+export default withFetchCourses(
+  withNamespaces("translation")(connect(mapStateToProps)(CourseInfo))
+);

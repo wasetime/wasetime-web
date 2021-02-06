@@ -1,14 +1,13 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import MediaQuery from "react-responsive";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
-  faInfoCircle,
-  faExternalLinkSquareAlt,
   faMapMarkerAlt,
   faMinusCircle,
   faPlusCircle,
+  faExternalLinkSquareAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import { withNamespaces } from "react-i18next";
@@ -35,11 +34,17 @@ const CourseItemWrapper = styled("div")`
   flex: 1 0 auto;
   align-items: stretch;
   background-color: #fff;
-  border: none;
-  margin: 0.2em 0;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 8px 0px;
+  margin: 0.5em 0.5em;
   padding: 0.5em 0.8em;
-  width: 100%;
+  width: 90%;
   line-height: 150%;
+  &:hover {
+    ${(props) =>
+      !props.isDetailDisplayed &&
+      "background-color: #eee; box-shadow: none; cursor: pointer;"}
+  }
 `;
 
 const StyledHeading = styled("h3")`
@@ -121,50 +126,6 @@ const Description = styled("div")`
   text-align: left;
 `;
 
-const InfoButtonsWrapper = styled("div")`
-  flex: 1 0 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 0.9em;
-`;
-
-// Info Button
-const ViewInfoButton = styled("a")`
-  display: block;
-  background-color: #ffae42;
-  border: 0px;
-  border-radius: 5px;
-  color: #fff;
-  padding: 3px 0.7rem 1px;
-  margin-bottom: 4px;
-  text-align: center;
-  text-decoration: none;
-  border: 2px solid #ffae42;
-  &:hover {
-    color: #ffae42;
-    background-color: #fff;
-    border: 2px solid #ffae42;
-  }
-  &:focus {
-    outline: none;
-  }
-`; // Case of large Screen
-
-const ViewInfoIconButton = styled("a")`
-  display: block;
-  background-color: #fff;
-  border: 0px;
-  color: #ffae42;
-  text-decoration: none;
-  &:hover {
-    color: #ffae42;
-  }
-  &:focus {
-    outline: none;
-  }
-`; // Case of Small Screen
-
 const OccurrenceList = styled("ul")`
   list-style: none;
   margin: 0;
@@ -242,8 +203,10 @@ const CourseItem = ({
   isAddable,
   handleOnClick,
   handleClickSyllabusLink,
-  isInCourseReviewsPage,
+  isDetailDisplayed,
   needLineBreak,
+  openNewTabOnClick,
+  history,
   t,
   lng,
 }) => {
@@ -290,54 +253,27 @@ const CourseItem = ({
     />
   );
 
-  const reviewButtonBar = (
-    <MediaQuery minWidth={sizes.desktop}>
-      {(matches) => {
-        return (
-          matches &&
-          !isInCourseReviewsPage && (
-            <InfoButtonsWrapper>
-              <ViewInfoButton
-                href={`/courseInfo?courseID=${syllabusId}&searchLang=${searchLang}`}
-                target="_blank"
-              >
-                <FontAwesomeIcon icon={faInfoCircle} />{" "}
-                {t("courseInfo.Details.title")}
-              </ViewInfoButton>
-            </InfoButtonsWrapper>
-          )
-        );
-      }}
-    </MediaQuery>
-  );
-
-  const reviewButtonIcon = ( // Share Button Function for small page
-    <MediaQuery maxWidth={sizes.desktop}>
-      {(matches) => {
-        /* To course Info Button */
-        return (
-          matches &&
-          !isInCourseReviewsPage && (
-            <ViewInfoIconButton
-              href={`/courseInfo?courseID=${syllabusId}&searchLang=${searchLang}`}
-            >
-              <FontAwesomeIcon
-                icon={faInfoCircle}
-                size="2x"
-                transform="shrink-2"
-              />{" "}
-            </ViewInfoIconButton>
-          )
-        );
-      }}
-    </MediaQuery>
-  );
-
   return (
     <RowWrapper>
-      <CourseItemWrapper>
+      <CourseItemWrapper
+        isDetailDisplayed={isDetailDisplayed}
+        onClick={() => {
+          if (!isDetailDisplayed) {
+            if (openNewTabOnClick) {
+              window.open(
+                `/courseInfo?courseID=${syllabusId}&searchLang=${searchLang}`,
+                "_blank"
+              );
+            } else {
+              history.push(
+                `/courseInfo?courseID=${syllabusId}&searchLang=${searchLang}`
+              );
+            }
+          }
+        }}
+      >
         <StyledHeading>{highlightedTitle}</StyledHeading>
-        {isInCourseReviewsPage && (
+        {isDetailDisplayed && (
           <StyledSubHeading>{course[SYLLABUS_KEYS.SUBTITLE]}</StyledSubHeading>
         )}
         <CourseItemRow>
@@ -354,37 +290,39 @@ const CourseItem = ({
               borderRadius: "5px",
             }}
           >
-            <a
-              style={{ alignSelf: "flex-start" }}
-              href={`https://www.wsl.waseda.jp/syllabus/JAA104.php?pKey=${syllabusId}${t(
-                "syllabus.langParam"
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                handleClickSyllabusLink(title, lng);
-              }}
-            >
-              <FontAwesomeIcon
-                style={{ color: "#6495ED" }}
-                icon={faExternalLinkSquareAlt}
-                size="2x"
-                transform="shrink-2"
-              />
-            </a>
+            {isDetailDisplayed && (
+              <a
+                style={{ alignSelf: "flex-start" }}
+                href={`https://www.wsl.waseda.jp/syllabus/JAA104.php?pKey=${syllabusId}${t(
+                  "syllabus.langParam"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  handleClickSyllabusLink(title, lng);
+                }}
+              >
+                <FontAwesomeIcon
+                  style={{ color: "#6495ED" }}
+                  icon={faExternalLinkSquareAlt}
+                  size="2x"
+                  transform="shrink-2"
+                />
+              </a>
+            )}
             <InvisibleButton /* Add Button */
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 handleOnClick(title, lng);
               }}
             >
               {buttonIcon}
             </InvisibleButton>
 
-            <InvisibleButton>{reviewButtonIcon}</InvisibleButton>
             <FetchedShareButton
               shareLink={shareLink}
-              isInCourseReviewsPage={isInCourseReviewsPage}
+              isDetailDisplayed={isDetailDisplayed}
               display="icon"
               sizesDesktop={sizes.desktop}
               needLineBreak={needLineBreak}
@@ -402,12 +340,11 @@ const CourseItem = ({
           </DescriptionWrapper>
           <FetchedShareButton
             shareLink={shareLink}
-            isInCourseReviewsPage={isInCourseReviewsPage}
+            isDetailDisplayed={isDetailDisplayed}
             display="bar"
             sizesDesktop={sizes.desktop}
             needLineBreak={needLineBreak}
           />
-          <InvisibleButton>{reviewButtonBar}</InvisibleButton>
         </DetailWrapper>
       </CourseItemWrapper>
     </RowWrapper>
@@ -416,7 +353,7 @@ const CourseItem = ({
 
 // <Instructors>{highlightedInstructor}</Instructors>
 
-export default withNamespaces("translation")(CourseItem);
+export default withRouter(withNamespaces("translation")(CourseItem));
 
 CourseItem.propTypes = {
   searchTerm: PropTypes.string.isRequired,

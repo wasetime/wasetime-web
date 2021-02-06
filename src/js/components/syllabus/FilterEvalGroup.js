@@ -10,12 +10,28 @@ const Range = Slider.createSliderWithTooltip(Slider.Range);
 
 const StyledDropdown = styled(Dropdown)`
   font-size: 1em !important;
+  min-height: 32px !important;
+  padding: 0px !important;
+  padding-top: 0.3rem !important;
+
+  label {
+    font-family: Lato, Yu Gothic Medium, Segoe UI !important;
+    font-display: swap;
+  }
+
   .divider.text {
     line-height: 1.3 !important;
+    font-size: 1.2em !important;
+    margin: 2px 1rem !important;
   }
+
   .menu .text {
     font-size: 1.5em !important;
     line-height: 1.2 !important;
+  }
+
+  i {
+    padding: 0.5rem 0.2rem 0.5rem 0px !important;
   }
 `;
 
@@ -32,7 +48,7 @@ const FilterEvalGroup = ({
   checkedSpecialInputs,
 }) => (
   <div>
-    <FormLabel style={{ fontSize: "1.3em", color: "#000", fontWeight: "bold" }}>
+    <FormLabel style={{ fontSize: "1.2em", color: "#000", fontWeight: "bold" }}>
       {legend}
     </FormLabel>
     <Grid style={{ margin: "0" }}>

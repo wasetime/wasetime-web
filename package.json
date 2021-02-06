@@ -10,8 +10,9 @@
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "@sentry/react": "^5.29.2",
     "ajv": "^6.9.1",
-    "aws-amplify": "^3.3.4",
+    "aws-amplify": "^3.3.13",
     "axios": "^0.19.0",
     "chart.js": "^2.9.4",
     "http-proxy-middleware": "^0.19.0",
@@ -46,6 +47,7 @@
     "react-router-dom": "^4.2.2",
     "react-s-alert": "^1.4.1",
     "react-scripts": "^3.4.3",
+    "react-uid": "^2.3.1",
     "react-virtualized": "^9.16.1",
     "react-waypoint": "^8.0.2",
     "redux": "^3.7.2",
@@ -72,5 +74,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "all-contributors-cli": "^6.19.0"
+  }
 }

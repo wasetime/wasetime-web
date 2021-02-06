@@ -13,7 +13,7 @@ const StyledList = styled("ol")`
   list-style: none;
   list-style-type: none;
   position: sticky;
-  z-index: 1000;
+  z-index: 80;
   left: 0;
 `;
 

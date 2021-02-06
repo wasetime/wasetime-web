@@ -3,14 +3,13 @@ import styled from "styled-components";
 
 import CourseListSummary from "../CourseListSummary";
 import AddedCourseAndPrefItem from "../../containers/timetable/AddedCourseAndPrefItem";
-import {Wrapper} from "../../styled-components/Wrapper";
-import {media} from "../../styled-components/utils";
-import {UnstyledUList} from "../../styled-components/List";
+import { Wrapper } from "../../styled-components/Wrapper";
+import { media } from "../../styled-components/utils";
+import { UnstyledUList } from "../../styled-components/List";
 
 const ExtendedWrapper = styled(Wrapper)`
   padding: 0 1em;
-  ${media.tablet`margin-top: 2em;`};
-  ${media.phone`margin-top: 2em;`};
+  ${media.tablet`margin-top: 1rem;`};
 `;
 
 const ExtendedUnstyledUList = styled(UnstyledUList)`
@@ -35,11 +34,18 @@ const AddedCourseAndPrefList = ({
       />
       <Wrapper>
         <ExtendedUnstyledUList>
-          {addedCoursesAndPrefs.map((addedCourseAndPref) => (
-            <AddedCourseAndPrefItem
-              key={addedCourseAndPref.id}
-              addedCourseAndPref={addedCourseAndPref}
-            />
+          {addedCoursesAndPrefs.map((addedCourseAndPref, i) => (
+            <React.Fragment key={i}>
+              <AddedCourseAndPrefItem
+                key={addedCourseAndPref.id}
+                addedCourseAndPref={addedCourseAndPref}
+              />
+              <hr
+                style={{
+                  border: "none",
+                }}
+              />
+            </React.Fragment>
           ))}
         </ExtendedUnstyledUList>
       </Wrapper>

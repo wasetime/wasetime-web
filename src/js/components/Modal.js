@@ -31,6 +31,7 @@ class Modal extends React.Component {
       overlayClassName,
       className,
       children,
+      onRequestClose,
       ...rest
     } = this.props;
     return (
@@ -39,6 +40,8 @@ class Modal extends React.Component {
         style={style}
         overlayClassName={overlayClassName}
         className={className}
+        onRequestClose={onRequestClose || (() => {})}
+        shouldCloseOnOverlayClick={true}
         {...rest}
       >
         {children}

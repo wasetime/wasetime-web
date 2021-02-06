@@ -74,11 +74,11 @@ export const sortCourses = (searchTerm, courses, searchLang) => {
     let sum = 0;
     for (let i = 0; i < searchRegexes.length; i++) {
       if (searchRegexes[i].test(title)) {
-        sum += course.e ? 1 : 3;
+        sum += 1;
       } else if (searchRegexes[i].test(instructor)) {
-        sum += course.e ? 2 : 4;
+        sum += 2;
       } else {
-        sum += course.e ? 5 : 6;
+        sum += 3;
       }
       return sum;
     }

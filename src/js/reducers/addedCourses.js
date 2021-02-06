@@ -3,9 +3,12 @@ import { combineReducers } from "redux";
 import {
   HYDRATE_ADDED_COURSES,
   ADD_COURSE,
+  SAVE_TIMETABLE,
   CHANGE_COURSES_SORTING_OPTION,
 } from "../actions/types";
 import addedSemesterCourses, * as fromSemesterCourses from "./addedSemesterCourses";
+import addedIds from "./addedIds";
+import addedIdsBySchool from "./addedIdsBySchool";
 
 // Higher-order reducer.
 // https://redux.js.org/recipes/structuringreducers/reusingreducerlogic
@@ -24,6 +27,20 @@ const createSemesterWrapperReducer = (
           return reducerFunction(state, action);
         }
         return state;
+      case SAVE_TIMETABLE:
+        // action.payload.coursesAndPrefsByTerm: {
+        //   fall: [
+        //    { id: STR, color: INT, displayLang: STR, courses: [{...}] },
+        //    ...
+        //  ],
+        //   spring: [{...}]
+        // }
+        return reducerFunction(state, {
+          type: SAVE_TIMETABLE,
+          payload: {
+            coursesAndPrefs: action.payload.coursesAndPrefsByTerm[reducerName],
+          },
+        });
       case HYDRATE_ADDED_COURSES:
         const { payload, ...actionRest } = action;
         const { prefs, ...payloadRest } = payload;
@@ -51,6 +68,8 @@ const addedCourses = combineReducers({
     "spring",
     /0|1|f/g
   ),
+  ids: addedIds,
+  idsBySchool: addedIdsBySchool,
 });
 
 export default addedCourses;

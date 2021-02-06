@@ -16,7 +16,7 @@ class FetchedShareButton extends React.Component {
       display,
       shareLink,
       sizesDesktop,
-      isInCourseReviewsPage,
+      isDetailDisplayed,
       needLineBreak,
     } = this.props;
     return (
@@ -24,7 +24,7 @@ class FetchedShareButton extends React.Component {
         display={display}
         shareLink={shareLink}
         sizesDesktop={sizesDesktop}
-        isInCourseReviewsPage={isInCourseReviewsPage}
+        isDetailDisplayed={isDetailDisplayed}
         isPopperOpen={this.state.isPopperOpen}
         handleToggleSharePopper={this.handleToggleSharePopper}
         needLineBreak={needLineBreak}

@@ -6,11 +6,13 @@ import AddedCourseListSwitch from "../../containers/syllabus/AddedCourseListSwit
 import FetchedCourseListSearch from "../../containers/syllabus/FetchedCourseListSearch";
 import { RowWrapper } from "../../styled-components/Wrapper";
 import { SideBar } from "../../styled-components/SideBar";
-import { sizes } from "../../styled-components/utils";
+import { media, sizes } from "../../styled-components/utils";
 import withFetchCourses from "../../hocs/withFetchCourses";
 
 const ExtendedRowWrapper = styled(RowWrapper)`
   flex: 1 0 0;
+  padding-top: 67px;
+  ${media.tablet`padding-top: 0px;`}
 `;
 
 const SyllabusSearch = (props) => {

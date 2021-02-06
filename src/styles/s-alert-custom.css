@@ -14,12 +14,12 @@
 .s-alert-warning {
   background: #ffc107;
   color: #000;
-  z-index: 4000;
+  z-index: 1001;
 }
 
 .s-alert-error {
   /* background: #b51e36; */
   background-color: #ce0115;
   color: #fff;
-  z-index: 4000;
+  z-index: 1001;
 }

@@ -2,6 +2,7 @@ import {
   HYDRATE_ADDED_COURSES,
   ADD_COURSE,
   REMOVE_COURSE,
+  SAVE_TIMETABLE,
 } from "../actions/types";
 
 const addedById = (state = {}, action) => {
@@ -31,6 +32,16 @@ const addedById = (state = {}, action) => {
     case REMOVE_COURSE:
       const { [action.payload.id]: value, ...rest } = state;
       return rest;
+    case SAVE_TIMETABLE:
+      // action.payload.coursesAndPrefs: [
+      //   { id: STR, color: INT, displayLang: STR, courses: [{...}] },
+      //   ...
+      // ]
+      let coursesById = {};
+      action.payload.coursesAndPrefs.forEach((courseAndPref) => {
+        coursesById[courseAndPref.id] = courseAndPref.course;
+      });
+      return coursesById;
     default:
       return state;
   }

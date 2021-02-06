@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import stickybits from "stickybits";
 
-import {headerHeight} from "../../styled-components/variables";
-import {RowWrapper} from "../../styled-components/Wrapper";
+import { headerHeight } from "../../styled-components/variables";
+import { RowWrapper } from "../../styled-components/Wrapper";
 import PropTypes from "prop-types";
 
 const ExtendedWrapper = styled(RowWrapper)`
@@ -13,7 +13,7 @@ const ExtendedWrapper = styled(RowWrapper)`
   height: ${(props) => props.theme.semesterTabsHeight};
   width: 100%;
   background-color: ${(props) => props.theme.grey7};
-  z-index: 1030;
+  z-index: 103;
 `;
 
 const SemesterButton = styled("button")`

@@ -38,20 +38,12 @@ const InvisibleButton = styled("button")`
   outline: 0;
 `;
 
-const ColorCircle = styled("div")`
-  width: 1em;
-  height: 1em;
-  border: solid 2px;
-  border-radius: 50%;
-  margin: 0.5em 0.5em 0 0;
-`;
-
 const ColorButton = styled(InvisibleButton)`
-  margin: 0.2em 0.1em;
   width: 1.5em;
   height: 1.5em;
   border: solid 2px;
-  border-radius: 0.3em;
+  border-radius: 50%;
+  margin: 0.5em 0.5em 0 0;
 `;
 
 const StyledHeading = styled("h3")`
@@ -103,7 +95,35 @@ const CourseAndPrefItem = ({
   );
   return (
     <RowWrapper>
-      <ColorCircle className={`color-${color}`} />
+      <Manager>
+        <Reference>
+          {({ ref }) => (
+            <ColorButton
+              className={`color-${color}`}
+              innerRef={ref}
+              onClick={handleToggleColorPopper}
+            />
+          )}
+        </Reference>
+        <Popper placement="top">
+          {isPopperOpen
+            ? ({ ref, style, placement, arrowProps }) => (
+                <PopperBox
+                  innerRef={ref}
+                  style={style}
+                  data-placement={placement}
+                >
+                  <ColorSelector handleChangeColor={handleChangeColor} />
+                  <Arrow
+                    innerRef={arrowProps.ref}
+                    data-placement={placement}
+                    style={arrowProps.style}
+                  />
+                </PopperBox>
+              )
+            : () => null}
+        </Popper>
+      </Manager>
       <CourseItemWrapper>
         <StyledHeading>{title}</StyledHeading>
         <CourseItemRow>
@@ -125,35 +145,6 @@ const CourseAndPrefItem = ({
               justifyContent: "flex-end",
             }}
           >
-            <Manager>
-              <Reference>
-                {({ ref }) => (
-                  <ColorButton
-                    className={`color-${color}`}
-                    innerRef={ref}
-                    onClick={handleToggleColorPopper}
-                  />
-                )}
-              </Reference>
-              <Popper placement="top">
-                {isPopperOpen
-                  ? ({ ref, style, placement, arrowProps }) => (
-                      <PopperBox
-                        innerRef={ref}
-                        style={style}
-                        data-placement={placement}
-                      >
-                        <ColorSelector handleChangeColor={handleChangeColor} />
-                        <Arrow
-                          innerRef={arrowProps.ref}
-                          data-placement={placement}
-                          style={arrowProps.style}
-                        />
-                      </PopperBox>
-                    )
-                  : () => null}
-              </Popper>
-            </Manager>
             <InvisibleButton
               onClick={(e) => {
                 e.preventDefault();
@@ -165,7 +156,7 @@ const CourseAndPrefItem = ({
 
             <a
               style={{ alignSelf: "flex-start" }}
-              href={`https://www.wsl.waseda.jp/syllabus/JAA104.php?pKey=${courseId}&pLng=en`}
+              href={`/courseInfo?courseID=${courseId}&searchLang=${displayLang}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => {
@@ -173,7 +164,7 @@ const CourseAndPrefItem = ({
               }}
             >
               <FontAwesomeIcon
-                style={{ color: "#6495ED" }}
+                style={{ color: "#ffae42" }}
                 icon={faExternalLinkSquareAlt}
                 size="2x"
                 transform="shrink-2"

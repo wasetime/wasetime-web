@@ -14,6 +14,8 @@ import {
   gaClickSyllabusLink,
 } from "../../ga/eventActions";
 import { SYLLABUS_KEYS } from "../../config/syllabusKeys";
+import MediaQuery from "react-responsive";
+import { sizes } from "../../styled-components/utils";
 
 const ADDED_COURSES_NUMBER_LIMIT = 100;
 
@@ -86,24 +88,45 @@ class FetchedCourseItem extends React.Component {
       searchLang,
       course,
       byId,
-      isInCourseReviewsPage,
+      isDetailDisplayed,
       needLineBreak,
     } = this.props;
     const id = course[SYLLABUS_KEYS.ID];
     const isAddable = !(id in byId);
     return (
-      <CourseItem
-        handleOnClick={
-          isAddable ? this.handleAddCourse : this.handleRemoveCourse
+      <MediaQuery minWidth={sizes.desktop}>
+        {(matches) =>
+          matches ? (
+            <CourseItem
+              handleOnClick={
+                isAddable ? this.handleAddCourse : this.handleRemoveCourse
+              }
+              handleClickSyllabusLink={this.handleClickSyllabusLink}
+              isAddable={isAddable}
+              searchTerm={searchTerm}
+              searchLang={searchLang}
+              course={course}
+              isDetailDisplayed={isDetailDisplayed}
+              needLineBreak={needLineBreak}
+              openNewTabOnClick={true}
+            />
+          ) : (
+            <CourseItem
+              handleOnClick={
+                isAddable ? this.handleAddCourse : this.handleRemoveCourse
+              }
+              handleClickSyllabusLink={this.handleClickSyllabusLink}
+              isAddable={isAddable}
+              searchTerm={searchTerm}
+              searchLang={searchLang}
+              course={course}
+              isDetailDisplayed={isDetailDisplayed}
+              needLineBreak={needLineBreak}
+              openNewTabOnClick={false}
+            />
+          )
         }
-        handleClickSyllabusLink={this.handleClickSyllabusLink}
-        isAddable={isAddable}
-        searchTerm={searchTerm}
-        searchLang={searchLang}
-        course={course}
-        isInCourseReviewsPage={isInCourseReviewsPage}
-        needLineBreak={needLineBreak}
-      />
+      </MediaQuery>
     );
   }
 }

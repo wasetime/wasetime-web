@@ -78,12 +78,10 @@ const DatePickerButton = styled("button")`
   border: none;
   width: 100%;
   background: #efefef;
-
   &:hover {
     outline: none;
     background: #ddd;
   }
-
   ${media.phone`padding: 0.5em 0.3em;`}
   ${media.phoneMini`font-size: 0.9em;`}
 `;
@@ -94,16 +92,13 @@ const DatetimeClearButton = styled("button")`
   border-radius: 0 5px 5px 0;
   width: 24%;
   background: #efefef;
-
   &:hover {
     outline: none;
     background: #ddd;
   }
-
   &:focus {
     outline: none;
   }
-
   ${media.phone`padding: 0.5em 0.3em;`}
   ${media.phoneMini`font-size: 0.9em;`}
 `;

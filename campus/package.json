@@ -49,6 +49,8 @@
   },
   "dependencies": {
     "@aws-amplify/auth": "^3.4.20",
+    "@bit/wasedatime.core.ts.styles.button": "0.0.1",
+    "@bit/wasedatime.core.ts.styles.wrapper": "0.0.1",
     "@bit/wasedatime.core.ts.utils.responsive-utils": "0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -59,12 +61,17 @@
     "@types/react-dom": "^16.9.6",
     "@types/systemjs": "^6.1.0",
     "@types/webpack-env": "^1.16.0",
+    "bootstrap": "^4.6.0",
     "i18next": "^19.8.4",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.5.0",
     "react-datepicker": "^3.4.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.8.5",
+    "react-responsive-carousel": "^3.2.12",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.2.1"
   }
 }

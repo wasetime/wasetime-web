@@ -69,6 +69,9 @@ const RoomFinder = (): JSX.Element => {
                         <Tab eventKey="Toyama" title="Toyama">
                             <Building campusName="Toyama"/>
                         </Tab>
+                        <Tab eventKey="Tokorozawa" title="Tokorozawa">
+                            <Building campusName="Tokorozawa"/>
+                        </Tab>
                     </Tabs>
                 </div>
                     

@@ -40,7 +40,9 @@ interface Props {
 
 
 const Building = ({
-    campusName
+    campusName,
+    weekday,
+    period
   }) => {
     return (
         <React.Fragment>
@@ -57,7 +59,7 @@ const Building = ({
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
                                     {
-                                        Object.keys(campuses[campusName][buid]).map((roomdata, j) => <RoomType key={j} vacancy={campuses[campusName][buid][roomdata][0][0] ? 1 : 0} >{roomdata}</RoomType>)
+                                        Object.keys(campuses[campusName][buid]).map((roomdata, j) => <RoomType key={j} vacancy={campuses[campusName][buid][roomdata][period][weekday] ? 1 : 0} >{roomdata}</RoomType>)
                                     }
                                 </Card.Body>
                             </Accordion.Collapse>

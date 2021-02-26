@@ -19,8 +19,10 @@ const InfoWrapper = styled("div")`
 
 const RoomType = styled(Badge)<RoomProps>`
   font-size: 1.2em;
+  font-weight: 500;
   margin: 1px 3px 1px 3px;
-  background-color: ${props => props.vacancy ? "green" : "red"}
+  border-radius: 6px;
+  background-color: ${props => props.vacancy ? "#71CE74" : "#E53935"}
 `;
 
 interface RoomProps {
@@ -28,10 +30,12 @@ interface RoomProps {
   }  
 
 const RoomAcc = styled(Accordion)`
-  
+  padding: 0px;
 `;
 const RoomCar = styled(Card.Header)`
-  
+  padding: 0px;
+  text-align: center;
+  width: 100%;
 `;
 
 interface Props {
@@ -52,14 +56,14 @@ const Building = ({
                         <RoomAcc key={i}>
                             <Card>
                             <RoomCar>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                {buid}
+                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                                Building {buid}
                                 </Accordion.Toggle>
                             </RoomCar>
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
                                     {
-                                        Object.keys(campuses[campusName][buid]).map((roomdata, j) => <RoomType key={j} vacancy={campuses[campusName][buid][roomdata][period][weekday] ? 1 : 0} >{roomdata}</RoomType>)
+                                        Object.keys(campuses[campusName][buid]).map((roomdata, j) => <RoomType key={j} vacancy={campuses[campusName][buid][roomdata][period][weekday] ? 1 : 0} >Room {roomdata}</RoomType>)
                                     }
                                 </Card.Body>
                             </Accordion.Collapse>

@@ -22,7 +22,7 @@ import ReactDOM from 'react-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 // import 'semantic-ui-css/semantic.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Badge } from 'react-bootstrap';
 import Building from "./Building";
 
 
@@ -118,6 +118,20 @@ const findPeriod = (totalMins) => {
     }
   };
 
+const RoomType = styled(Badge)`
+  font-size: 1em;
+  font-weight: 500;
+  margin: 1px 3px 1px 3px;
+  background-color: #E53935;
+  border-radius: 6px;
+`;
+const RoomEmpt = styled(Badge)`
+  font-size: 1em;
+  font-weight: 500;
+  margin: 1px 3px 1px 3px;
+  background-color: #71CE74;
+  border-radius: 6px;
+`;
 
 
 
@@ -159,6 +173,8 @@ const RoomFinder = (): JSX.Element => {
                 <p>
                     <FontAwesomeIcon icon={faSearch} size="1x" />{" "}
                     {("Assign a date/time to check room vacancy")}：
+                    <RoomType>occupied</RoomType>
+                    <RoomEmpt>available</RoomEmpt>
                 </p>
                 <DatetimeSelection>
                     <DatePickerSpan>

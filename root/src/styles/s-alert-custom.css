@@ -1,0 +1,25 @@
+.s-alert-box {
+  padding: 6px;
+}
+
+.s-alert-box-inner {
+  text-align: center;
+}
+
+.s-alert-success {
+  background: #48af37;
+  color: #fff;
+}
+
+.s-alert-warning {
+  background: #ffc107;
+  color: #000;
+  z-index: 1001;
+}
+
+.s-alert-error {
+  /* background: #b51e36; */
+  background-color: #ce0115;
+  color: #fff;
+  z-index: 1001;
+}

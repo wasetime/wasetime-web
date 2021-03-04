@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "timetable": "Timetable",
+    "syllabus": "Syllabus",
+    "campus": "Campus",
+    "career": "Career",
+    "blog": "Blog",
+    "corona-info": "COVID19",
+    "home": "Home",
+    "aboutus": "About Us"
+  },
+  "aboutus": {
+    "our mission": "Our Mission",
+    "join us": "Join Us",
+    "meet our team": "Meet Our Team",
+    "We are on a mission": "We are on a mission",
+    "Frontend Engineer": "Frontend Engineer",
+    "Backend Engineer": "Backend Engineer",
+    "Kaiqing": "Kaiqing",
+    "Yeping Tang": "Yeping Tang",
+    "Impressive I'm beginning to understand everything now": "Impressive, I'm beginning to understand everything now.",
+    "seize the day": "Seize the day!"
+  }
+}

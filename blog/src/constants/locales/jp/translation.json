@@ -1,0 +1,32 @@
+{
+  "navigation": {
+    "campus": "キャンパス"
+  },
+  "room": {
+    "Under Construction": "作成中",
+    "Want to help?": "一緒に楽しく開発しませんか？",
+    "Check out our": "興味のある方は ",
+    "facebook": " Facebook ",
+    "twitter": " Twitter ",
+    "or": "または",
+    "!": "から！",
+    "We sincerely welcome any contributors!": ""
+  },
+  "bus": {
+    "busStatus": "バス運行情報",
+    "Waseda": "早稲田",
+    "NishiWaseda": "西早稲田",
+    "Add to home screen": "ホーム画面に追加して",
+    "and never miss a bus again!": "、バスの情報をいつでもチェック！",
+    "Official Link": "公式リンク",
+    "The Latest Waseda-NishiWaseda Bus Schedule": "早稲田ー西早稲田バスの最新スケジュール",
+    "Departs in": "あと",
+    "mins": "分",
+    "Out of service": "利用時間外",
+    "Special Schedule": "特別なスケジュール",
+    "Tap on the top-right icon": "右上のアイコン",
+    "and select Add to Home screen": "をクリックして、'ホーム画面に追加' を選択する",
+    "Tap on the bottom-middle icon": "底部中央のアイコン",
+    "Assign a date / time to check the next bus": "日時を指定し、次のバスを検索しましょう"
+  }
+}

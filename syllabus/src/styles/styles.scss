@@ -1,0 +1,96 @@
+@import "common.css";
+
+/*
+Incredibly useful site:
+https://www.materialpalette.com/colors
+*/
+
+.theme-default {
+  @import "~semantic-ui-css/components/label.min";
+  @import "~semantic-ui-css/components/divider.min";
+  @import "~semantic-ui-css/components/statistic.min";
+  @import "~semantic-ui-css/components/grid.min";
+  @import "~semantic-ui-css/components/table.min";
+  @import "~semantic-ui-css/components/segment.min";
+  @import "~semantic-ui-css/components/label.min";
+  @import "~semantic-ui-css/components/button.min";
+  @import "~semantic-ui-css/components/modal.min";
+  @import "~semantic-ui-css/components/popup.min";
+  @import "~semantic-ui-css/components/step.min";
+  @import "~semantic-ui-css/components/message.min";
+  @import "~semantic-ui-css/components/tab.min";
+  @import "~semantic-ui-css/components/card.min";
+  @import "~semantic-ui-css/components/menu.min";
+  @import "~semantic-ui-css/components/dimmer.min";
+  @import "~semantic-ui-css/components/image.min";
+}
+
+.theme-default .primary {
+  color: #b51e36;
+  background-color: #b51e36;
+  border-color: #b51e36;
+}
+
+.theme-default .color-0,
+.theme-default .red {
+  color: #580505;
+  background-color: #ef9a9a;
+  border-color: #580505;
+}
+
+.theme-default .color-1,
+.theme-default .orange {
+  color: #9e2c08;
+  background-color: #ffcc80;
+  border-color: #9e2c08;
+}
+
+.theme-default .color-2,
+.theme-default .yellow {
+  color: #845125;
+  background-color: #fff59d;
+  border-color: #845125;
+}
+
+.theme-default .color-3,
+.theme-default .green {
+  color: #114615;
+  background-color: #a5d6a7;
+  border-color: #114615;
+}
+
+.theme-default .color-4,
+.theme-default .blue {
+  color: #0c2a58;
+  background-color: #90caf9;
+  border-color: #0c2a58;
+}
+
+.theme-default .color-5,
+.theme-default .purple {
+  color: #221361;
+  background-color: #b39ddb;
+  border-color: #221361;
+}
+
+.theme-default .color-6,
+.theme-default .brown {
+  color: #3e2723;
+  background-color: #c7a59a;
+  border-color: #3e2723;
+}
+
+.theme-default .color-7,
+.theme-default .dark {
+  color: #222;
+  background-color: #aaa;
+  border-color: #222;
+}
+
+.ui.dropdown .menu.visible {
+  display: block;
+}
+
+.ui.dropdown .menu.visible .text {
+  font-size: 1.5em;
+}

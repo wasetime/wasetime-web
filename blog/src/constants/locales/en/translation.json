@@ -1,0 +1,32 @@
+{
+  "navigation": {
+    "campus": "Campus"
+  },
+  "room": {
+    "Under Construction": "Under Construction",
+    "Want to help?": "Wanna build an amazing app with us?",
+    "Check out our": "Check out our",
+    "facebook": " Facebook ",
+    "twitter": "Twitter",
+    "or": " or ",
+    "!": "!",
+    "We sincerely welcome any contributors!": "We sincerely welcome any contributors!"
+  },
+  "bus": {
+    "busStatus": "Bus Status",
+    "Waseda": "Waseda",
+    "NishiWaseda": "NishiWaseda",
+    "Add to home screen": "Add to home screen",
+    "and never miss a bus again!": "and never miss a bus again!",
+    "Official Link": "Official Link",
+    "The Latest Waseda-NishiWaseda Bus Schedule": "The Latest Waseda-NishiWaseda Bus Schedule",
+    "Departs in": "Departs in",
+    "mins": "mins",
+    "Out of service": "Out of service",
+    "Special Schedule": "Special Schedule",
+    "Tap on the top-right icon": "Tap on the top-right icon",
+    "and select Add to Home screen": "and select 'Add to Home screen'",
+    "Tap on the bottom-middle icon": "Tap on the bottom-middle icon",
+    "Assign a date / time to check the next bus": "Assign a date / time to check the next bus"
+  }
+}

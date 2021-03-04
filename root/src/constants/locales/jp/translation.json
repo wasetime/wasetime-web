@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "timetable": "時間割",
+    "syllabus": "シラバス",
+    "campus": "キャンパス",
+    "career": "キャリア",
+    "blog": "ブログ",
+    "corona-info": "コロナ",
+    "home": "ホーム",
+    "aboutus": "組織概要"
+  },
+  "aboutus": {
+    "our mission": "理念",
+    "join us": "メンバー募集",
+    "meet our team": "チームメンバー",
+    "We are on a mission": "ミッション",
+    "Frontend Engineer": "フロントエンドエンジニア",
+    "Backend Engineer": "バックエンドエンジニア",
+    "Kaiqing": "晴",
+    "Yeping Tang": "トウ  ナリヒラ ",
+    "seize the day": "いまが最高！"
+  }
+}

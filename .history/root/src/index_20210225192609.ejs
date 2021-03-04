@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>WasedaTime</title>
+  <!--
+    Remove this if you only support browsers that support async/await.
+    This is needed by babel to share largeish helper code for compiling async/await in older
+    browsers. More information at https://github.com/single-spa/create-single-spa/issues/112
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.7/runtime.min.js"></script>
+
+  <!--
+    This CSP allows any SSL-enabled host and for arbitrary eval(), but you should limit these directives further to increase your app's security.
+    Learn more about CSP policies at https://content-security-policy.com/#directive
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: localhost:*; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https: localhost:*; object-src 'none'; img-src 'self' https: localhost:* data:; font-src 'self' https: localhost:* data:;">
+  <meta name="importmap-type" content="systemjs-importmap" />
+  <!-- If you wish to turn off import-map-overrides for specific environments (prod), uncomment the line below -->
+  <!-- More info at https://github.com/joeldenning/import-map-overrides/blob/master/docs/configuration.md#domain-list -->
+  <!-- <meta name="import-map-overrides-domains" content="denylist:prod.example.com" /> -->
+
+  <!-- Shared dependencies go into this import map. Your shared dependencies must be of one of the following formats:
+
+    1. System.register (preferred when possible) - https://github.com/systemjs/systemjs/blob/master/docs/system-register.md
+    2. UMD - https://github.com/umdjs/umd
+    3. Global variable
+
+    More information about shared dependencies can be found at https://single-spa.js.org/docs/recommended-setup#sharing-with-import-maps.
+  -->
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  
+  <!-- <link rel="stylesheet" href="/dist/main.css"> -->
+  <!-- <link rel="stylesheet" href="/main.css"> -->
+  <% if (isLocal) { %>
+  <link rel="stylesheet" href="/src/styles/index.css">
+  <% } else { %>
+  <link rel="stylesheet" href="/main.css">
+  <% } %>
+
+  <% if (isLocal) { %>
+  <link rel="shortcut icon" sizes="16x16" href="/src/assets/img/favicon.ico" />
+  <link rel="icon" sizes="192x192" href="/src/assets/img/logo.png" />
+  <link
+    rel="apple-touch-icon"
+    sizes="128x128"
+    href="/src/assets/img/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="152x152"
+    href="/src/assets/img/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="167x167"
+    href="/src/assets/img/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/src/assets/img/maskable_icon.png"
+  />
+  <% } else { %>
+  <link rel="shortcut icon" sizes="16x16" href="/favicon.ico" />
+  <link rel="icon" sizes="192x192" href="/logo.png" />
+  <link
+    rel="apple-touch-icon"
+    sizes="128x128"
+    href="/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="152x152"
+    href="/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="167x167"
+    href="/maskable_icon.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/maskable_icon.png"
+  />
+  <% } %>
+  
+  <script type="systemjs-importmap" defer>
+    {
+      "imports": {
+        "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
+        "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
+        "@wasedatime/root-config": "/wasedatime-root-config.js",
+        "@wasedatime/syllabus": "/syllabus/wasedatime-syllabus.js",
+        "@wasedatime/campus": "/campus/wasedatime-campus.js",
+        "react": "https://cdn.jsdelivr.net/npm/react@16.12.0/umd/react.production.min.js",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.12.0/umd/react-dom.production.min.js"
+      }
+    }
+  </script>
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js" as="script">
+
+  <!-- Add your organization's prod import map URL to this script's src  -->
+  <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
+  <% if (isDev) { %>
+  <script type="systemjs-importmap" defer>
+    {
+      "imports": {
+        "@wasedatime/syllabus": "https://<%= process.env.PREFIX %>.<%= process.env.MF_SYLLABUS_DOMAIN %>/wasedatime-syllabus.js",
+        "@wasedatime/campus": "https://<%= process.env.PREFIX %>.<%= process.env.MF_CAMPUS_DOMAIN %>/wasedatime-campus.js"
+      }
+    }
+  </script>
+  <% } %>
+
+  <% if (isLocal) { %>
+  <script type="systemjs-importmap" defer>
+    {
+      "imports": {
+        "@wasedatime/root-config": "//localhost:9000/wasedatime-root-config.js",
+        "@wasedatime/syllabus": "//localhost:8080/wasedatime-syllabus.js",
+        "@wasedatime/campus": "//localhost:8081/wasedatime-campus.js",
+        "@wasedatime/career": "//localhost:8082/wasedatime-career.js",
+        "@wasedatime/blog": "//localhost:8083/wasedatime-career.js"
+      }
+    }
+  </script>
+  <% } %>
+
+  <!--
+    If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
+    Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
+  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/zone.js@0.11.3/dist/zone.min.js"></script> -->
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@2.2.0/dist/import-map-overrides.js"></script> -->
+  <% if (isLocal) { %>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.js" async></script>
+  <% } else { %>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js" async></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      })
+    }
+  </script>
+  <% } %>
+  <link rel="preload" as="font" href="./src/styles/fonts/segoe-ui.ttf" type="font/ttf" crossorigin="anonymous" />
+  <link rel="preload" as="font" href="./src/styles/fonts/yugothic-medium.otf" type="font/otf" crossorigin="anonymous" />
+
+  <style>
+  body {
+    margin: 0px;
+  }
+  #layout {
+    margin: 0px;
+    display: grid;
+    grid-template-rows: 67px calc(100% - 117px) 50px;
+    grid-template-columns: 65px calc(100% - 65px);
+    font-family: Segoe UI, Yu Gothic Medium, Lato;
+    font-display: swap;
+  }
+  main {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+  #nav {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+  #loading canvas {
+    background-image: url("/src/assets/img/home_background-lg.jpg");
+    width: 100vw;
+    height: 100vh;
+  }
+  @media only screen and (max-width:768px) {
+    main {
+      grid-column-start: 1;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+    #nav {
+      grid-column-start: 1;
+      grid-column-end: 3;
+      grid-row-start: 3;
+      grid-row-end: 4;
+    }
+    #loading canvas {
+      background-image: url("/src/assets/img/home_background-phone.jpg");
+      background-repeat: no-repeat;
+      background-size: 100vw 100vh;
+    }
+  }
+  </style>
+
+  <template id="single-spa-layout">
+    <single-spa-router>
+      <div id="layout">
+        <div id="nav"></div>
+        <main>
+          <route path="courses">
+            <% if (!isLocal) { %>
+            <link rel="stylesheet" href="/syllabus/main.css">
+            <% } %>
+            <application name="@wasedatime/syllabus"></application>
+          </route>
+          <route path="campus">
+            <application name="@wasedatime/campus"></application>
+          </route>
+          <route path="career">
+            <application name="@wasedatime/career"></application>
+          </route>
+          <route path="blog">
+            <application name="@wasedatime/blog"></application>
+          </route>          
+          <route default>
+            <application name="@wasedatime/root-config"></application>
+          </route>
+        </main>
+      </div>
+    </single-spa-router>
+  </template>
+</head>
+<body>
+  <div id="loading">
+    <noscript><canvas></canvas></noscript>
+  </div>
+  <script>
+    System.import('@wasedatime/root-config');
+  </script>
+  <!-- <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full> -->
+</body>
+</html>

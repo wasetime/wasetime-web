@@ -32,7 +32,7 @@ Then you will see a new folder called 'forum' is created.
 
 ```
 
-If 8082 is used in another existing project, try 8083 or above
+If 8083 is used in another existing project, try 8084 or above
 
 3.
 

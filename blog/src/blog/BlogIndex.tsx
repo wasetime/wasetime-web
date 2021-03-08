@@ -1,21 +1,21 @@
-import * as React from 'react';
-import {styled } from '@material-ui/core/styles';
+import * as React from "react";
+import { styled } from "@material-ui/core/styles";
 // import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import MainFeaturedPost from './MainFeaturedPost';
-import FeaturedPost from './FeaturedPost';
-import Main from './Main';
-import Sidebar from './Sidebar';
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import MainFeaturedPost from "./MainFeaturedPost";
+import FeaturedPost from "./FeaturedPost";
+import Main from "./Main";
+import Sidebar from "./Sidebar";
 // import axios from 'axios';
 import careerAPI from "./careerAPI";
-
+import { Post } from "../types/post";
 
 const MainContainer = styled(Container)({
-  padding: '50px',
+  padding: "50px",
 });
 
 // const mainFeaturedPost = {
@@ -46,49 +46,43 @@ const MainContainer = styled(Container)({
 //   },
 // ];
 
-
 const sidebar = {
-  title: 'About',
+  title: "About",
   description:
-    'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
+    "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
   archives: [
-    { title: 'March 2020', url: '#' },
-    { title: 'February 2020', url: '#' },
-    { title: 'January 2020', url: '#' },
-    { title: 'November 1999', url: '#' },
-    { title: 'October 1999', url: '#' },
-    { title: 'September 1999', url: '#' },
-    { title: 'August 1999', url: '#' },
-    { title: 'July 1999', url: '#' },
-    { title: 'June 1999', url: '#' },
-    { title: 'May 1999', url: '#' },
-    { title: 'April 1999', url: '#' },
+    { title: "March 2020", url: "#" },
+    { title: "February 2020", url: "#" },
+    { title: "January 2020", url: "#" },
+    { title: "November 1999", url: "#" },
+    { title: "October 1999", url: "#" },
+    { title: "September 1999", url: "#" },
+    { title: "August 1999", url: "#" },
+    { title: "July 1999", url: "#" },
+    { title: "June 1999", url: "#" },
+    { title: "May 1999", url: "#" },
+    { title: "April 1999", url: "#" },
   ],
   social: [
-    { name: 'GitHub', icon: GitHubIcon },
-    { name: 'Twitter', icon: TwitterIcon },
-    { name: 'Facebook', icon: FacebookIcon },
+    { name: "GitHub", icon: GitHubIcon },
+    { name: "Twitter", icon: TwitterIcon },
+    { name: "Facebook", icon: FacebookIcon },
   ],
 };
 
-interface IMyComponentProps {
-  mainFeaturedPost: [],
-  featuredPosts: [],
-}
-
 interface IMyComponentState {
-  featuredPosts: [],
-  mainFeaturedPost: []
+  featuredPosts: Post[];
+  mainFeaturedPost: Post | null;
 }
 
-class BlogIndex extends React.Component<IMyComponentProps, IMyComponentState>{
-  constructor(props:IMyComponentProps) {
+class BlogIndex extends React.Component<{}, IMyComponentState> {
+  constructor(props) {
     super(props);
     this.state = {
-      mainFeaturedPost: [],
+      mainFeaturedPost: null,
       featuredPosts: [],
       // urlFile: "https://api.wasedatime.com/staging/feeds?offset=0&limit=5",
-   };
+    };
   }
   // componentDidMount() {
   //   axios.get(this.state.urlFile)
@@ -103,26 +97,27 @@ class BlogIndex extends React.Component<IMyComponentProps, IMyComponentState>{
   //   });
   // }
   async componentDidMount() {
-    let apiContent = await careerAPI.get('/')
-    let MainApiContent = apiContent.data.data.articles[0]
+    let apiContents = await careerAPI.get<{ data: { articles: Post[] } }>("/");
+    let MainApiContent = apiContents.data.data.articles[0];
     // apiContent = apiContent.data.data.articles
     let x = 0; //suppose you want to remove element at 0th index
-    apiContent = apiContent.data.data.articles.filter((num, index) => index !== x) //editedArray = [1,2,3,4]
+    let apiContent = apiContents.data.data.articles.filter(
+      (num, index) => index !== x
+    ); //editedArray = [1,2,3,4]
     this.setState({
-      ...this.state, ...{
-        mainFeaturedPost: MainApiContent,
-        featuredPosts: apiContent,
-      }
+      mainFeaturedPost: MainApiContent,
+      featuredPosts: apiContent,
     });
-    console.log(this.state.featuredPosts)
+    console.log(this.state.featuredPosts);
   }
-  render(){
+  render() {
     const { mainFeaturedPost, featuredPosts } = this.state;
     return (
       <React.Fragment>
         <MainContainer maxWidth="lg">
           <main>
-            <MainFeaturedPost post={mainFeaturedPost} />
+            {mainFeaturedPost && <MainFeaturedPost post={mainFeaturedPost} />}
+
             <Grid container spacing={4}>
               {featuredPosts.map((post) => (
                 <FeaturedPost key={post.title} post={post} />
@@ -140,8 +135,8 @@ class BlogIndex extends React.Component<IMyComponentProps, IMyComponentState>{
           </main>
         </MainContainer>
       </React.Fragment>
-    )
-  };
-};
+    );
+  }
+}
 
 export default BlogIndex;

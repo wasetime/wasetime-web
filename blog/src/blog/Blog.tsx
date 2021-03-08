@@ -1,9 +1,15 @@
 import React from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { withTranslation } from "react-i18next";
-import CareerArticles from "./CareerArticles"
-import BlogIndex from "./BlogIndex"
+import CareerArticles from "./CareerArticles";
+import BlogIndex from "./BlogIndex";
 
 const Blog = ({ t }) => {
   return (
@@ -21,7 +27,7 @@ const Blog = ({ t }) => {
         />
         <meta property="og:site_name" content="WasedaTime - Career" />
       </Helmet>
-      <div>
+      <Router>
         <Link to="/blog/articles">
           <button className="ui button">{t("career.Articles")}</button>
         </Link>
@@ -32,7 +38,7 @@ const Blog = ({ t }) => {
           <Route exact path="/blog/articles" component={CareerArticles} />
           <Route exact path="/blog" component={BlogIndex} />
         </Switch>
-      </div>
+      </Router>
     </React.Fragment>
   );
 };

@@ -10,7 +10,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Hidden from "@material-ui/core/Hidden";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import CareerArticles from "./CareerArticles";
-import moment from 'moment'
+import moment from "moment";
+import { Post } from "../types/post";
 
 const useStyles = makeStyles({
   card: {
@@ -24,13 +25,13 @@ const useStyles = makeStyles({
   },
 });
 
-function FeaturedPost(props) {
+function FeaturedPost(props: { post: Post }) {
   const classes = useStyles();
   const { post } = props;
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea component="a" href="#">
-        <Link to={`/article/${post.src}`}>
+        <Link to={`/blog/articles/${post.src}`}>
           <Card className={classes.card}>
             <div className={classes.cardDetails}>
               <CardContent>
@@ -44,7 +45,7 @@ function FeaturedPost(props) {
                   {post.summary}
                 </Typography>
                 <Typography variant="subtitle1" color="primary">
-                  Continue reading... 
+                  Continue reading...
                   {/* {post.src} */}
                 </Typography>
               </CardContent>
@@ -59,9 +60,7 @@ function FeaturedPost(props) {
           </Card>
         </Link>
       </CardActionArea>
-      <Router>
-        <Route path={`/user/${post.src}`} component={CareerArticles} />
-      </Router>
+      {/* <Route path={`/user/${post.src}`} component={CareerArticles} /> */}
     </Grid>
   );
 }
